@@ -1,0 +1,115 @@
+.song-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.song-item {
+  display: flex;
+  align-items: center;
+  background-color: rgba(57, 255, 20, 0.1);
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  border: 1px solid #39FF14;
+}
+
+.song-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+}
+
+.song-image-container {
+  width: 60px;
+  height: 60px;
+  margin-right: 15px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.album-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.song-info {
+  flex-grow: 1;
+}
+
+.song-name {
+  margin: 0;
+  color: #39FF14;
+  font-size: 1.2em;
+}
+
+.song-artist {
+  margin: 5px 0;
+  color: #00FFFF;
+}
+
+.song-album {
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 0.9em;
+}
+
+.song-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.play-button, .open-spotify-button, .suggest-song-button {
+  background-color: #39FF14;
+  color: #000000;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2em;
+  margin: 5px 0;
+}
+
+.open-spotify-button, .suggest-song-button {
+  width: auto;
+  height: auto;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 0.8em;
+}
+
+.suggest-song-button {
+  background-color: #FF1493;
+  color: #FFFFFF;
+}
+
+.play-button:hover:not(.disabled), 
+.open-spotify-button:hover, 
+.suggest-song-button:hover {
+  background-color: #00FFFF;
+  box-shadow: 0 0 15px #00FFFF;
+}
+
+.suggest-song-button:hover {
+  background-color: #FF69B4;
+  box-shadow: 0 0 15px #FF69B4;
+}
+
+.play-button.disabled {
+  background-color: #666;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.no-songs-message {
+  color: #00FFFF;
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
