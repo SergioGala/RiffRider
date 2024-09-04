@@ -1,0 +1,54 @@
+{
+  "name": "spotify-web-api-js",
+  "description": "A client-side JS wrapper for the Spotify Web API",
+  "version": "1.5.2",
+  "homepage": "https://github.com/JMPerez/spotify-web-api-js",
+  "author": {
+    "name": "José M. Pérez"
+  },
+  "license": "MIT",
+  "main": "src/spotify-web-api.js",
+  "typings": "src/typings/spotify-web-api.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/JMPerez/spotify-web-api-js"
+  },
+  "devDependencies": {
+    "coveralls": "^3.1.0",
+    "doxdox": "^3.0.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
+    "husky": "^4.3.5",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
+    "q": "^1.4.1",
+    "sinon": "^9.2.1"
+  },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/"
+  },
+  "scripts": {
+    "lint": "eslint src/*.js",
+    "test": "npm run lint && jest --coverage",
+    "travis": "npm test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "docs": "mkdir -p docs && doxdox 'src/**/*.js' --layout bootstrap --output docs/index.html"
+  },
+  "files": [
+    "src/*.js",
+    "src/typings/*.d.ts"
+  ],
+  "keywords": [
+    "spotify"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md,json}": "prettier --single-quote --trailing-comma none --write '{**/*.ts,**/*.js,*.md,__test__/**/*.json}'"
+  }
+}

@@ -3,8 +3,8 @@ import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
 
 // Reemplaza con tus propias credenciales de Spotify
-const CLIENT_ID = '49df6bb3f924476ab1cdb09d58880d7b';
-const REDIRECT_URI = 'http://localhost:3000/callback';
+const CLIENT_ID = '706b0c3883dd4ec8a1282ef9035b3eaf';
+const REDIRECT_URI = 'https://redesigned-bassoon-vx977vg5p5fw97x-3000.app.github.dev/';
 
 export const authorizeSpotify = () => {
   const scopes = [
