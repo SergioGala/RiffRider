@@ -193,7 +193,7 @@ function App() {
       <InternetConnectionCheck />
       <TechnoLines />
       <PartyMode isActive={isPartyMode} />
-      <h1 className="app-title"><GlitchText text="RiffRider" /></h1>
+      <h1 className="app-title"><GlitchText text="🎧 YouDJ" /></h1>
       <AudioVisualizer />
       <div className="theme-selector">
         <button 
