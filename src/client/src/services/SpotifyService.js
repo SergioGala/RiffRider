@@ -4,7 +4,7 @@ const spotifyApi = new SpotifyWebApi();
 
 // Reemplaza con tus propias credenciales de Spotify
 const CLIENT_ID = '49df6bb3f924476ab1cdb09d58880d7b';
-const REDIRECT_URI = 'https://refactored-space-goldfish-wr974v6j9jr935xqg-3000.app.github.dev/';
+const REDIRECT_URI = 'http://localhost:3000/callback';
 
 export const authorizeSpotify = () => {
   const scopes = [
