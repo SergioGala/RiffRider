@@ -3,8 +3,8 @@ import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
 
 // Reemplaza con tus propias credenciales de Spotify
-const CLIENT_ID = 'd645cea8c0c841f3aebd5c3728629985';
-const REDIRECT_URI = 'https://fictional-chainsaw-jj45grxq9wx529w5-3000.app.github.dev/';
+const CLIENT_ID = '49df6bb3f924476ab1cdb09d58880d7b';
+const REDIRECT_URI = 'http://localhost:3000/';
 
 export const authorizeSpotify = () => {
   const scopes = [
