@@ -16,9 +16,12 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "framer-motion": "^11.5.4",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.439.0",
     "mongoose": "^8.6.0",
-    "spotify-web-api-js": "^1.5.2"
+    "spotify-web-api-js": "^1.5.2",
+    "three": "^0.168.0"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

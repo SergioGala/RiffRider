@@ -18,6 +18,7 @@ import { themes } from './components/themes';
 import './App.css';
 import './animations.css';
 
+
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [songs, setSongs] = useState([]);
@@ -35,6 +36,8 @@ function App() {
   const [spotifyToken, setSpotifyToken] = useState(null);
   const [currentTheme, setCurrentTheme] = useState('pop');
   const [showAllThemes, setShowAllThemes] = useState(false);
+  
+  
 
   useEffect(() => {
     const hash = window.location.hash
@@ -188,10 +191,13 @@ function App() {
     setShowAllThemes(false);
   };
 
+ 
+
   return (
     <div className="App fade-in" style={{ backgroundColor: `var(--background)`, color: `var(--text)` }}>
       <InternetConnectionCheck />
       <TechnoLines />
+      
       <PartyMode isActive={isPartyMode} />
       <h1 className="app-title"><GlitchText text="🎧 YouDJ" /></h1>
       <AudioVisualizer />
@@ -266,9 +272,12 @@ function App() {
               audioSrc={currentSong.preview_url}
               songTitle={currentSong.name}
               artistName={currentSong.artists}
+              albumCover={currentSong.album_image}
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}
               onClose={closeAudioPlayer}
+              primaryColor={themes[currentTheme].primary}
+          secondaryColor={themes[currentTheme].secondary}
             />
           )}
         </>

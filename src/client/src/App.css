@@ -410,51 +410,6 @@ body {
   font-weight: bold;
 }
 
-.audio-player {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 46%;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: var(--primary);
-  padding: 10px;
-  z-index: 1000;
-}
-
-.audio-player h3 {
-  margin: 0;
-  font-size: 1.2em;
-}
-
-.audio-player p {
-  margin: 5px 0;
-  font-size: 0.9em;
-}
-
-.audio-player .controls {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.audio-player button {
-  background-color: var(--primary);
-  color: var(--background);
-  border: none;
-  padding: 5px 10px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.audio-player input[type="range"] {
-  flex-grow: 1;
-  margin: 0 10px;
-}
-
-.audio-player span {
-  font-size: 0.8em;
-}
-
 .dj-interface {
   background-color: rgba(0, 0, 0, 0.8);
   border: 2px solid var(--primary);
@@ -705,33 +660,9 @@ body {
     box-shadow: 0 0 20px var(--primary);
   }
 }
+
 .request-button {
     margin-top: 10px;
-}
-
-.audio-visualizer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.audio-player-header {
-  position: relative;
-}
-
-.close-button {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  background: none;
-  border: none;
-  color: var(--primary);
-  font-size: 1em;
-  cursor: pointer;
 }
 
 .spotify-auth-button {
@@ -754,6 +685,7 @@ body {
   color: var(--primary);
   box-shadow: 0 0 20px var(--primary);
 }
+
 .theme-selector {
   position: fixed;
   top: 20px;
@@ -817,4 +749,264 @@ body {
   .theme-button:hover {
     transform: translateY(-3px);
   }
+}
+
+/* Nuevos estilos para el AudioPlayer */
+.audio-player-futuristic {
+  position: fixed;
+  top: 110px;
+  left: 90px;
+  width: 300px;
+  height: 500px;
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.8) 0%, rgba(20, 20, 20, 0.9) 100%);
+  color: var(--primary);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.5), inset 0 0 15px rgba(var(--secondary-rgb), 0.3);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  transform: perspective(1000px) rotateY(-15deg);
+  transition: all 0.5s ease;
+}
+
+.audio-player-futuristic:hover {
+  transform: perspective(1000px) rotateY(0deg) scale(1.05);
+}
+
+.holographic-display {
+  position: relative;
+  height: 200px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(var(--secondary-rgb), 0.1);
+}
+
+.song-info-hologram {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 2;
+  animation: hologramFloat 3s ease-in-out infinite;
+}
+
+@keyframes hologramFloat {
+  0%, 100% { transform: translate(-50%, -50%); }
+  50% { transform: translate(-50%, -55%); }
+}
+
+.song-info-hologram h3 {
+  font-size: 1.8em;
+  margin: 0;
+  text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+  animation: hologramFlicker 5s infinite alternate;
+}
+
+.song-info-hologram p {
+  font-size: 1em;
+  margin: 5px 0 0;
+  color: var(--secondary);
+  text-shadow: 0 0 8px var(--secondary), 0 0 16px var(--secondary);
+}
+
+@keyframes hologramFlicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.visualizer {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 100%;
+  padding: 0 10px;
+}
+
+.visualizer-bar {
+  width: 3px;
+  background: linear-gradient(to top, var(--primary), var(--secondary));
+  animation: barPulse 0.5s infinite alternate;
+}
+
+@keyframes barPulse {
+  to { height: 100%; }
+}
+
+.controls-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.control-button, .play-pause-button {
+  background: none;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-size: 1.2em;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.play-pause-button {
+  font-size: 1.5em;
+  width: 50px;
+  height: 50px;
+  background-color: var(--primary);
+  color: var(--background);
+}
+
+.control-button:hover, .play-pause-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--primary);
+}
+
+.progress-container, .volume-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+
+.progress-slider, .volume-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 5px;
+  border-radius: 5px;
+  background: rgba(var(--secondary-rgb), 0.3);
+  outline: none;
+  transition: all 0.3s ease;
+  overflow: visible; /* Asegura que el thumb sea visible */
+}
+
+.progress-slider::-webkit-slider-runnable-track,
+.volume-slider::-webkit-slider-runnable-track {
+  background: var(--primary);
+  height: 5px;
+  border-radius: 5px;
+}
+
+.progress-slider::-moz-range-track,
+.volume-slider::-moz-range-track {
+  background: var(--primary);
+  height: 5px;
+  border-radius: 5px;
+}
+
+.progress-slider::-webkit-slider-thumb,
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--secondary);
+  cursor: pointer;
+  box-shadow: 0 0 5px var(--secondary);
+  margin-top: -5px; /* Centra el thumb verticalmente */
+}
+
+.progress-slider::-moz-range-thumb,
+.volume-slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--secondary);
+  cursor: pointer;
+  box-shadow: 0 0 5px var(--secondary);
+}
+
+.volume-button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 1.2em;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  color: var(--secondary);
+  transform: scale(1.1);
+}
+
+.hologram-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 0%, rgba(var(--primary-rgb), 0.1) 50%, transparent 100%);
+  animation: hologramScan 5s linear infinite;
+}
+
+@keyframes hologramScan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Efecto de líneas escaneadas */
+.audio-player-futuristic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(var(--secondary-rgb), 0.1),
+    rgba(var(--secondary-rgb), 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+}
+
+/* Efecto de borde brillante */
+.audio-player-futuristic::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  border-radius: 22px;
+  z-index: -1;
+  filter: blur(5px);
+  opacity: 0.7;
+  animation: borderGlow 3s infinite alternate;
+}
+
+@keyframes borderGlow {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+.progress-slider::-webkit-slider-container,
+.volume-slider::-webkit-slider-container {
+  background: linear-gradient(to right, var(--primary) 0%, var(--primary) 50%, rgba(var(--secondary-rgb), 0.3) 50%, rgba(var(--secondary-rgb), 0.3) 100%);
+  border-radius: 5px;
 }

@@ -1,9 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
 
-const AudioPlayer = ({ audioSrc, songTitle, artistName, isPlaying, setIsPlaying, onClose }) => {
+const AudioPlayer = ({ audioSrc, songTitle, artistName, isPlaying, setIsPlaying, onClose, primaryColor, 
+  secondaryColor  }) => {
   const audioRef = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -56,6 +60,24 @@ const AudioPlayer = ({ audioSrc, songTitle, artistName, isPlaying, setIsPlaying,
     }
   };
 
+  const handleVolumeChange = (e) => {
+    const newVolume = Number(e.target.value);
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
+    }
+    if (newVolume > 0) {
+      setIsMuted(false);
+    }
+  };
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
@@ -63,35 +85,74 @@ const AudioPlayer = ({ audioSrc, songTitle, artistName, isPlaying, setIsPlaying,
   };
 
   if (!audioSrc) {
-    return (
-      <div className="audio-player">
-        <h3>{songTitle || 'No hay canción seleccionada'}</h3>
-        <p>{artistName || 'Artista desconocido'}</p>
-        <p>No hay previsualización disponible para esta canción.</p>
-        <button onClick={onClose} className="close-button">Cerrar</button>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div className="audio-player">
-      <div className="audio-player-header">
-        <button onClick={onClose} className="close-button">X</button>
-        <h3>{songTitle}</h3>
+    <div className="audio-player-futuristic" style={{
+      '--primary': primaryColor,
+      '--secondary': secondaryColor,
+      '--primary-rgb': primaryColor.match(/\d+/g).join(','),
+      '--secondary-rgb': secondaryColor.match(/\d+/g).join(',')
+    }}>
+      <div className="holographic-display">
+        <div className="song-info-hologram">
+          <h3>{songTitle}</h3>
+          <p>{artistName}</p>
+        </div>
+        <div className="visualizer">
+          {[...Array(20)].map((_, i) => (
+            <div 
+              key={i} 
+              className="visualizer-bar"
+              style={{
+                height: `${Math.random() * 100}%`,
+                animationDelay: `${i * 0.1}s`
+              }}
+            />
+          ))}
+        </div>
       </div>
-      <p>{artistName}</p>
-      <audio ref={audioRef} />
-      <div className="controls">
-        <button onClick={togglePlay}>{isPlaying ? 'Pause' : 'Play'}</button>
+      <div className="controls-panel">
+        <button onClick={() => audioRef.current.currentTime -= 10} className="control-button">
+          <SkipBack />
+        </button>
+        <button onClick={togglePlay} className="play-pause-button">
+          {isPlaying ? <Pause /> : <Play />}
+        </button>
+        <button onClick={() => audioRef.current.currentTime += 10} className="control-button">
+          <SkipForward />
+        </button>
+      </div>
+      <div className="progress-container">
+        <span>{formatTime(currentTime)}</span>
         <input
           type="range"
           min="0"
           max={duration}
           value={currentTime}
           onChange={handleSeek}
+          className="progress-slider"
         />
-        <span>{formatTime(currentTime)} / {formatTime(duration)}</span>
+        <span>{formatTime(duration)}</span>
       </div>
+      <div className="volume-container">
+        <button onClick={toggleMute} className="volume-button">
+          {isMuted ? <VolumeX /> : <Volume2 />}
+        </button>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value={isMuted ? 0 : volume}
+          onChange={handleVolumeChange}
+          className="volume-slider"
+        />
+      </div>
+      <div className="hologram-effect"></div>
+      <button onClick={onClose} className="close-button">X</button>
+      <audio ref={audioRef} />
     </div>
   );
 };
