@@ -1,0 +1,93 @@
+.suggestion-queue {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 2px solid #39FF14;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  .suggestion-queue h2 {
+    color: #39FF14;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .suggestion-queue ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .suggestion-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(57, 255, 20, 0.1);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .suggestion-item:hover {
+    background-color: rgba(57, 255, 20, 0.2);
+  }
+  
+  .queue-position {
+    color: #00FFFF;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .song-info {
+    flex-grow: 1;
+  }
+  
+  .song-title {
+    color: #39FF14;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .song-artist {
+    color: #00FFFF;
+  }
+  
+  .vote-count {
+    color: #FFFF00;
+    font-weight: bold;
+    margin: 0 20px;
+  }
+  
+  .trend-up {
+    color: #39FF14;
+  }
+  
+  .trend-down {
+    color: #FF6600;
+  }
+  
+  .trend-neutral {
+    color: #FFFF00;
+  }
+  
+  .vote-buttons button {
+    background-color: transparent;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .vote-buttons button:hover {
+    transform: scale(1.2);
+  }
+  
+  .vote-buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .vote-buttons button.voted {
+    color: #39FF14;
+  }
