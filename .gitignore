@@ -1,1 +1,32 @@
 node_modules
+# Entorno virtual
+venv/
+env/
+.venv/
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Directorios de distribución
+dist/
+build/
+*.egg-info/
+
+# Archivos de IDE y editores (opcional, pero recomendado)
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de registro y base de datos local
+*.log
+*.sqlite3
+
+# Archivos de entorno
+.env

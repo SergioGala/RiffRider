@@ -3,28 +3,25 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server/index.js",
-    "server": "nodemon src/server/index.js",
+    "start": "python src/server/app.py",
+    "server": "python src/server/app.py",
     "client": "cd src/client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "install-client": "cd src/client && npm install"
+    "install-client": "cd src/client && npm install",
+    "install-server": "pip install -r src/server/requirements.txt"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.19.2",
     "framer-motion": "^11.5.4",
     "lodash": "^4.17.21",
     "lucide-react": "^0.439.0",
-    "mongoose": "^8.6.0",
     "spotify-web-api-js": "^1.5.2",
     "three": "^0.168.0"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
-    "nodemon": "^3.1.4"
+    "concurrently": "^8.2.2"
   }
 }
