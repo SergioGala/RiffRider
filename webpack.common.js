@@ -36,7 +36,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.js']
+    extensions: ['.js', '.jsx', '.json', '.mjs']
   },
   plugins: [
     new HtmlWebpackPlugin({
