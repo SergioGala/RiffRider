@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
 
-const AudioPlayer = ({ audioSrc, songTitle, artistName, isPlaying, setIsPlaying, onClose, primaryColor, 
-  secondaryColor  }) => {
+
+const AudioPlayer = ({ audioSrc, songTitle, artistName, albumCover, isPlaying, setIsPlaying, onClose, primaryColor, secondaryColor }) =>  {
   const audioRef = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -90,10 +90,9 @@ const AudioPlayer = ({ audioSrc, songTitle, artistName, isPlaying, setIsPlaying,
 
   return (
     <div className="audio-player-futuristic" style={{
-      '--primary': primaryColor,
-      '--secondary': secondaryColor,
-      '--primary-rgb': primaryColor.match(/\d+/g).join(','),
-      '--secondary-rgb': secondaryColor.match(/\d+/g).join(',')
+      '--player-primary': primaryColor,
+      '--player-secondary': secondaryColor,
+      
     }}>
       <div className="holographic-display">
         <div className="song-info-hologram">

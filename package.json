@@ -15,7 +15,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "framer-motion": "^11.5.4",
+    "color-thief-react": "^2.1.0",
+    "framer-motion": "^11.5.5",
     "lodash": "^4.17.21",
     "lucide-react": "^0.439.0",
     "spotify-web-api-js": "^1.5.2",

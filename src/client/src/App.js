@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import SearchBar from './components/SearchBar';
 import SongList from './components/SongList';
 import Pagination from './components/Pagination';
@@ -17,6 +18,7 @@ import { authorizeSpotify, setAccessToken, searchTracks } from './services/Spoti
 import { themes } from './components/themes';
 import './App.css';
 import './animations.css';
+import DynamicTheme from './components/DynamicTheme';
 
 
 function App() {
@@ -36,7 +38,8 @@ function App() {
   const [spotifyToken, setSpotifyToken] = useState(null);
   const [currentTheme, setCurrentTheme] = useState('pop');
   const [showAllThemes, setShowAllThemes] = useState(false);
-  
+  const [currentAlbumCover, setCurrentAlbumCover] = useState(null);
+  const [isDynamicThemeEnabled, setIsDynamicThemeEnabled] = useState(false);
   
 
   useEffect(() => {
@@ -179,6 +182,9 @@ function App() {
   const playSong = (song) => {
     setCurrentSong(song);
     setIsPlaying(true);
+    if (isDynamicThemeEnabled) {
+      setCurrentAlbumCover(song.album_image);
+    }
   };
 
   const closeAudioPlayer = () => {
@@ -194,20 +200,36 @@ function App() {
  
 
   return (
-    <div className="App fade-in" style={{ backgroundColor: `var(--background)`, color: `var(--text)` }}>
-      <InternetConnectionCheck />
-      <TechnoLines />
-      
-      <PartyMode isActive={isPartyMode} />
-      <h1 className="app-title"><GlitchText text="🎧 YouDJ" /></h1>
-      <AudioVisualizer />
-      <div className="theme-selector">
+    <motion.div 
+      className="App fade-in"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      style={{ backgroundColor: `var(--background)`, color: `var(--text)` }}
+    >
+      <DynamicTheme 
+        albumCover={currentAlbumCover} 
+        isEnabled={isDynamicThemeEnabled}
+        currentTheme={currentTheme}
+        themes={themes}
+      />
+  
+      <div className="theme-controls">
+        <button 
+          onClick={() => setIsDynamicThemeEnabled(!isDynamicThemeEnabled)}
+          className="dynamic-theme-toggle"
+        >
+          {isDynamicThemeEnabled ? 'Desactivar' : 'Activar'} Tema Dinámico
+        </button>
         <button 
           onClick={() => setShowAllThemes(!showAllThemes)} 
           className="theme-button show-all-themes"
         >
           {showAllThemes ? 'Ocultar temas' : 'Mostrar todos los temas'}
         </button>
+      </div>
+  
+      <div className="theme-selector">
         {(showAllThemes ? Object.keys(themes) : Object.keys(themes).slice(0, 5)).map(theme => (
           <button 
             key={theme} 
@@ -218,6 +240,14 @@ function App() {
           </button>
         ))}
       </div>
+  
+      <InternetConnectionCheck />
+      <TechnoLines />
+      
+      <PartyMode isActive={isPartyMode} />
+      <h1 className="app-title"><GlitchText text="🎧 YouDJ" /></h1>
+      <AudioVisualizer />
+      
       {!spotifyToken ? (
         <button onClick={authorizeSpotify} className="spotify-auth-button">
           Conectar con Spotify
@@ -267,22 +297,23 @@ function App() {
               <SuggestionQueue userId={userId} />
             </>
           )}
-          {currentSong && (
-            <AudioPlayer 
-              audioSrc={currentSong.preview_url}
-              songTitle={currentSong.name}
-              artistName={currentSong.artists}
-              albumCover={currentSong.album_image}
-              isPlaying={isPlaying}
-              setIsPlaying={setIsPlaying}
-              onClose={closeAudioPlayer}
-              primaryColor={themes[currentTheme].primary}
-          secondaryColor={themes[currentTheme].secondary}
-            />
-          )}
         </>
       )}
-    </div>
+  
+      {currentSong && (
+        <AudioPlayer 
+          audioSrc={currentSong.preview_url}
+          songTitle={currentSong.name}
+          artistName={currentSong.artists}
+          albumCover={currentSong.album_image}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          onClose={closeAudioPlayer}
+          primaryColor={themes[currentTheme].primary}
+          secondaryColor={themes[currentTheme].secondary}
+        />
+      )}
+    </motion.div>
   );
 }
 
