@@ -2,10 +2,6 @@ import SpotifyWebApi from 'spotify-web-api-js';
 
 const spotifyApi = new SpotifyWebApi();
 
-// Reemplaza con tus propias credenciales de Spotify
-const CLIENT_ID = '49df6bb3f924476ab1cdb09d58880d7b';
-const REDIRECT_URI = 'http://localhost:3000/';
-
 export const authorizeSpotify = () => {
   const scopes = [
     'user-read-private',
@@ -15,7 +11,7 @@ export const authorizeSpotify = () => {
     'streaming'
   ];
 
-  const url = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
+  const url = `https://accounts.spotify.com/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
   window.location.href = url;
 };
 
