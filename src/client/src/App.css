@@ -29,11 +29,16 @@ body {
 
 .app-title {
   color: var(--primary);
-  text-align: center;
   font-size: 3em;
   text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 30px var(--primary);
-  margin-bottom: 30px;
+  margin: 0;
   animation: pulsate 1.5s infinite alternate;
+}
+.app-nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 10px;
 }
 
 @keyframes pulsate {
@@ -93,6 +98,33 @@ body {
   color: var(--secondary);
 }
 
+.spotify-auth-button,
+.party-mode-toggle,
+.dj-mode-toggle {
+  background-color: var(--primary);
+  color: var(--background);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px var(--primary);
+}
+
+.spotify-auth-button:hover,
+.party-mode-toggle:hover,
+.dj-mode-toggle:hover {
+  background-color: var(--secondary);
+  color: var(--background);
+  box-shadow: 0 0 20px var(--secondary);
+}
+
+.app-main {
+  padding: 0 20px;
+}
 .request-button, .party-mode-toggle, .request-form-toggle, .dj-mode-toggle, .spotify-auth-button, .theme-button {
   background-color: var(--primary);
   color: var(--background);
@@ -1148,4 +1180,17 @@ body {
   background-color: var(--secondary);
   color: var(--text);
   box-shadow: 0 0 20px var(--secondary);
+}
+@media (max-width: 768px) {
+  .app-nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .spotify-auth-button,
+  .party-mode-toggle,
+  .dj-mode-toggle {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }

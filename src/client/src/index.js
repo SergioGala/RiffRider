@@ -1,11 +1,20 @@
-   import React from 'react';
-   import ReactDOM from 'react-dom/client';
-   import App from './App';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
+import App from './App';
 
-   const root = ReactDOM.createRoot(document.getElementById('root'));
-   root.render(
-     <React.StrictMode>
-       <App />
-     </React.StrictMode>
-   );
-   
+const theme = {
+  primary: 'var(--primary)',
+  secondary: 'var(--secondary)',
+  background: 'var(--background)',
+  text: 'var(--text)',
+};
+
+ReactDOM.render(
+  <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);

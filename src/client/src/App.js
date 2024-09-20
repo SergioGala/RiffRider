@@ -14,10 +14,10 @@ import AudioPlayer from './components/AudioPlayer';
 import AudioVisualizer from './components/AudioVisualizer';
 import InternetConnectionCheck from './components/InternetConnectionCheck';
 import ThemeSelector from './components/ThemeSelector';
+import DynamicTheme from './components/DynamicTheme';
 import { submitSongRequest, getRequestQueue } from './services/SongRequestService';
 import { authorizeSpotify, setAccessToken, searchTracks } from './services/SpotifyService';
 import { themes } from './components/themes';
-import DynamicTheme from './components/DynamicTheme';
 import './App.css';
 import './animations.css';
 
@@ -152,13 +152,11 @@ function App() {
     }
   }, [userId]);
 
-  const playSong = (song) => {
+  const playSong = useCallback((song) => {
     setCurrentSong(song);
     setIsPlaying(true);
-    if (isDynamicThemeEnabled) {
-      setCurrentAlbumCover(song.album_image);
-    }
-  };
+    setCurrentAlbumCover(song.album_image);
+  }, []);
 
   const closeAudioPlayer = useCallback(() => {
     setCurrentSong(null);
@@ -167,28 +165,20 @@ function App() {
 
   return (
     <motion.div 
-      className="App fade-in"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <InternetConnectionCheck />
-      <TechnoLines />
-      <PartyMode isActive={isPartyMode} />
-      
-      <h1 className="app-title"><GlitchText text="🎧 YouDJ" /></h1>
-      <AudioVisualizer />
-      <DynamicTheme 
-        albumCover={currentAlbumCover} 
-        isEnabled={isDynamicThemeEnabled}
-        currentTheme={currentTheme}
-      />
-      <ThemeSelector
-        currentTheme={currentTheme}
-        setCurrentTheme={setCurrentTheme}
-        isDynamicThemeEnabled={isDynamicThemeEnabled}
-        setIsDynamicThemeEnabled={setIsDynamicThemeEnabled}
-      />
+    className="App fade-in"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.5 }}
+  >
+    <InternetConnectionCheck />
+    <TechnoLines />
+    <PartyMode isActive={isPartyMode} />
+    
+    <header className="app-header">
+        <GlitchText text="🎧 YouDJ" />
+      </header>
+
+    <nav className="app-nav">
       {!spotifyToken ? (
         <button onClick={authorizeSpotify} className="spotify-auth-button">
           Conectar con Spotify
@@ -201,61 +191,80 @@ function App() {
           <button onClick={() => setIsDjMode(!isDjMode)} className="dj-mode-toggle">
             {isDjMode ? 'Modo Usuario' : 'Modo DJ'}
           </button>
-          {isDjMode ? (
-            <DjInterface 
-              currentSong={currentSong} 
-              onPlaySong={playSong}
-              requestQueue={requestQueue}
-              setRequestQueue={setRequestQueue}
-            />
-          ) : (
-            <>
-              <SearchBar searchTerm={searchTerm} setSearchTerm={handleSearch} />
-              <Sorting 
-                sortCriteria={sortCriteria} 
-                setSortCriteria={setSortCriteria}
-                sortOrder={sortOrder}
-                setSortOrder={setSortOrder}
-              />
-              {isLoading ? (
-                <LoadingIndicator />
-              ) : (
-                sortedSongs().length > 0 && (
-                  <>
-                    <SongList 
-                      songs={getCurrentSongs()} 
-                      onPlaySong={playSong} 
-                      onSuggestSong={handleSuggestSong}
-                    />
-                    <Pagination 
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      onPageChange={handlePageChange}
-                    />
-                  </>
-                )
-              )}
-              <SuggestionQueue userId={userId} />
-            </>
-          )}
         </>
       )}
+    </nav>
 
-      {currentSong && (
-        <AudioPlayer 
-          audioSrc={currentSong.preview_url}
-          songTitle={currentSong.name}
-          artistName={currentSong.artists}
-          albumCover={currentSong.album_image}
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
-          onClose={closeAudioPlayer}
-          primaryColor={themes[currentTheme].primary}
-          secondaryColor={themes[currentTheme].secondary}
-        />
+    <main className="app-main">
+      {spotifyToken && !isDjMode && (
+        <SearchBar searchTerm={searchTerm} setSearchTerm={handleSearch} />
       )}
-    </motion.div>
-  );
+
+        {isDjMode ? (
+          <DjInterface 
+            currentSong={currentSong} 
+            onPlaySong={playSong}
+            requestQueue={requestQueue}
+            setRequestQueue={setRequestQueue}
+          />
+        ) : (
+          <>
+            <Sorting 
+              sortCriteria={sortCriteria} 
+              setSortCriteria={setSortCriteria}
+              sortOrder={sortOrder}
+              setSortOrder={setSortOrder}
+            />
+            {isLoading ? (
+              <LoadingIndicator />
+            ) : (
+              sortedSongs().length > 0 && (
+                <>
+                  <SongList 
+                    songs={getCurrentSongs()} 
+                    onPlaySong={playSong} 
+                    onSuggestSong={handleSuggestSong}
+                  />
+                  <Pagination 
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </>
+              )
+            )}
+            <SuggestionQueue userId={userId} />
+          </>
+        )}
+      </main>
+      <DynamicTheme 
+        albumCover={currentAlbumCover}
+        isEnabled={isDynamicThemeEnabled}
+      />
+      <ThemeSelector
+        currentTheme={currentTheme}
+        setCurrentTheme={setCurrentTheme}
+        isDynamicThemeEnabled={isDynamicThemeEnabled}
+        setIsDynamicThemeEnabled={setIsDynamicThemeEnabled}
+      />
+
+<AudioVisualizer />
+
+{currentSong && (
+  <AudioPlayer 
+    audioSrc={currentSong.preview_url}
+    songTitle={currentSong.name}
+    artistName={currentSong.artists}
+    albumCover={currentSong.album_image}
+    isPlaying={isPlaying}
+    setIsPlaying={setIsPlaying}
+    onClose={closeAudioPlayer}
+    primaryColor={themes[currentTheme].primary}
+    secondaryColor={themes[currentTheme].secondary}
+  />
+)}
+</motion.div>
+);
 }
 
 export default App;
