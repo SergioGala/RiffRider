@@ -21,6 +21,7 @@
     "lucide-react": "^0.439.0",
     "server": "^1.0.39",
     "spotify-web-api-js": "^1.5.2",
+    "styled-components": "^6.1.13",
     "three": "^0.168.0"
   },
   "devDependencies": {
