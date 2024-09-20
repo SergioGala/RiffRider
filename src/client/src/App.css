@@ -545,24 +545,50 @@ body {
   z-index: 1000;
 }
 
-.theme-button {
-  padding: 8px 15px;
-  margin: 5px 0;
+.dynamic-theme-toggle,
+.show-all-themes-button {
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  background-color: var(--primary);
+  color: var(--background);
+  border: none;
   border-radius: 20px;
-  text-transform: capitalize;
-  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dynamic-theme-toggle:hover,
+.show-all-themes-button:hover {
+  background-color: var(--secondary);
+}
+
+.theme-buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: 15px;
+}
+
+.theme-button {
+  margin: 5px 0;
+  padding: 8px 15px;
+  background-color: var(--primary);
+  color: var(--background);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .theme-button:hover {
   background-color: var(--secondary);
-  color: var(--text);
   transform: translateX(-5px);
 }
 
 .theme-button.active {
   background-color: var(--text);
   color: var(--background);
-  box-shadow: 0 0 15px rgba(var(--text-rgb), 0.7);
+  box-shadow: 0 0 10px var(--primary);
 }
 
 .theme-button.active.glow-pulse {
@@ -570,9 +596,9 @@ body {
 }
 
 @keyframes glowPulse {
-  0% { box-shadow: 0 0 5px rgba(var(--text-rgb), 0.7); }
-  50% { box-shadow: 0 0 20px rgba(var(--text-rgb), 0.7); }
-  100% { box-shadow: 0 0 5px rgba(var(--text-rgb), 0.7); }
+  0% { box-shadow: 0 0 5px var(--primary); }
+  50% { box-shadow: 0 0 20px var(--primary); }
+  100% { box-shadow: 0 0 5px var(--primary); }
 }
 
 /* Estilos para el AudioPlayer */

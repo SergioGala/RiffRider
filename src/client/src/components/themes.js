@@ -65,12 +65,6 @@ export const themes = {
     background: '#4B0082',
     text: '#FFFFFF',
   },
-  soul: {
-    primary: '#FF4500',
-    secondary: '#9370DB',
-    background: '#2F4F4F',
-    text: '#FFFFFF',
-  },
   disco: {
     primary: '#FF69B4',
     secondary: '#FFD700',

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import SearchBar from './components/SearchBar';
 import SongList from './components/SongList';
 import Pagination from './components/Pagination';
@@ -13,13 +13,13 @@ import DjInterface from './components/DjInterface';
 import AudioPlayer from './components/AudioPlayer';
 import AudioVisualizer from './components/AudioVisualizer';
 import InternetConnectionCheck from './components/InternetConnectionCheck';
+import ThemeSelector from './components/ThemeSelector';
 import { submitSongRequest, getRequestQueue } from './services/SongRequestService';
 import { authorizeSpotify, setAccessToken, searchTracks } from './services/SpotifyService';
 import { themes } from './components/themes';
+import DynamicTheme from './components/DynamicTheme';
 import './App.css';
 import './animations.css';
-import DynamicTheme from './components/DynamicTheme';
-
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,10 +37,8 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [spotifyToken, setSpotifyToken] = useState(null);
   const [currentTheme, setCurrentTheme] = useState('pop');
-  const [showAllThemes, setShowAllThemes] = useState(false);
-  const [currentAlbumCover, setCurrentAlbumCover] = useState(null);
   const [isDynamicThemeEnabled, setIsDynamicThemeEnabled] = useState(false);
-  
+  const [currentAlbumCover, setCurrentAlbumCover] = useState(null);
 
   useEffect(() => {
     const hash = window.location.hash
@@ -68,9 +66,7 @@ function App() {
     fetchRequestQueue();
     const queueInterval = setInterval(fetchRequestQueue, 30000);
 
-    return () => {
-      clearInterval(queueInterval);
-    };
+    return () => clearInterval(queueInterval);
   }, []);
 
   useEffect(() => {
@@ -83,14 +79,12 @@ function App() {
       document.body.classList.remove('theme-transition');
     }, 300);
 
-    // Dispatch a custom event for theme change
     window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: currentTheme } }));
   }, [currentTheme]);
 
-  const handleSearch = async (term) => {
+  const handleSearch = useCallback(async (term) => {
     setSearchTerm(term);
     if (!term.trim()) {
-      console.log('Search term is empty, not performing search.');
       setSongs([]);
       setIsLoading(false);
       return;
@@ -98,14 +92,11 @@ function App() {
     if (spotifyToken) {
       setIsLoading(true);
       try {
-        console.log('Initiating search with term:', term);
         const results = await searchTracks(term);
-        console.log('Results received in App.js:', JSON.stringify(results, null, 2));
         if (Array.isArray(results) && results.length > 0) {
           setSongs(results);
           setCurrentPage(1);
         } else {
-          console.log('No songs found or empty array returned');
           setSongs([]);
         }
       } catch (error) {
@@ -117,33 +108,15 @@ function App() {
     } else {
       console.error('No Spotify token available. Please authenticate first.');
     }
-  };
+  }, [spotifyToken]);
 
   const sortSongs = useCallback((songsToSort, criteria, order) => {
     return [...songsToSort].sort((a, b) => {
-      let valueA, valueB;
-
-      switch (criteria) {
-        case 'name':
-          valueA = a.name.toLowerCase();
-          valueB = b.name.toLowerCase();
-          break;
-        case 'artists':
-          valueA = a.artists.toLowerCase();
-          valueB = b.artists.toLowerCase();
-          break;
-        case 'album':
-          valueA = a.album.toLowerCase();
-          valueB = b.album.toLowerCase();
-          break;
-        default:
-          valueA = a.name.toLowerCase();
-          valueB = b.name.toLowerCase();
-      }
-
-      if (valueA < valueB) return order === 'asc' ? -1 : 1;
-      if (valueA > valueB) return order === 'asc' ? 1 : -1;
-      return 0;
+      let valueA = a[criteria]?.toLowerCase();
+      let valueB = b[criteria]?.toLowerCase();
+      return order === 'asc' 
+        ? valueA.localeCompare(valueB)
+        : valueB.localeCompare(valueA);
     });
   }, []);
 
@@ -163,7 +136,7 @@ function App() {
     setCurrentPage(pageNumber);
   }, []);
 
-  const handleSuggestSong = async (song) => {
+  const handleSuggestSong = useCallback(async (song) => {
     try {
       const request = {
         songTitle: song.name,
@@ -177,7 +150,7 @@ function App() {
     } catch (error) {
       console.error('Error suggesting song:', error);
     }
-  };
+  }, [userId]);
 
   const playSong = (song) => {
     setCurrentSong(song);
@@ -187,17 +160,10 @@ function App() {
     }
   };
 
-  const closeAudioPlayer = () => {
+  const closeAudioPlayer = useCallback(() => {
     setCurrentSong(null);
     setIsPlaying(false);
-  };
-
-  const changeTheme = (genre) => {
-    setCurrentTheme(genre);
-    setShowAllThemes(false);
-  };
-
- 
+  }, []);
 
   return (
     <motion.div 
@@ -205,49 +171,24 @@ function App() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      style={{ backgroundColor: `var(--background)`, color: `var(--text)` }}
     >
+      <InternetConnectionCheck />
+      <TechnoLines />
+      <PartyMode isActive={isPartyMode} />
+      
+      <h1 className="app-title"><GlitchText text="🎧 YouDJ" /></h1>
+      <AudioVisualizer />
       <DynamicTheme 
         albumCover={currentAlbumCover} 
         isEnabled={isDynamicThemeEnabled}
         currentTheme={currentTheme}
-        themes={themes}
       />
-  
-      <div className="theme-controls">
-        <button 
-          onClick={() => setIsDynamicThemeEnabled(!isDynamicThemeEnabled)}
-          className="dynamic-theme-toggle"
-        >
-          {isDynamicThemeEnabled ? 'Desactivar' : 'Activar'} Tema Dinámico
-        </button>
-        <button 
-          onClick={() => setShowAllThemes(!showAllThemes)} 
-          className="theme-button show-all-themes"
-        >
-          {showAllThemes ? 'Ocultar temas' : 'Mostrar todos los temas'}
-        </button>
-      </div>
-  
-      <div className="theme-selector">
-        {(showAllThemes ? Object.keys(themes) : Object.keys(themes).slice(0, 5)).map(theme => (
-          <button 
-            key={theme} 
-            onClick={() => changeTheme(theme)} 
-            className={`theme-button ${currentTheme === theme ? 'active glow-pulse' : ''}`}
-          >
-            {theme}
-          </button>
-        ))}
-      </div>
-  
-      <InternetConnectionCheck />
-      <TechnoLines />
-      
-      <PartyMode isActive={isPartyMode} />
-      <h1 className="app-title"><GlitchText text="🎧 YouDJ" /></h1>
-      <AudioVisualizer />
-      
+      <ThemeSelector
+        currentTheme={currentTheme}
+        setCurrentTheme={setCurrentTheme}
+        isDynamicThemeEnabled={isDynamicThemeEnabled}
+        setIsDynamicThemeEnabled={setIsDynamicThemeEnabled}
+      />
       {!spotifyToken ? (
         <button onClick={authorizeSpotify} className="spotify-auth-button">
           Conectar con Spotify
@@ -299,7 +240,7 @@ function App() {
           )}
         </>
       )}
-  
+
       {currentSong && (
         <AudioPlayer 
           audioSrc={currentSong.preview_url}

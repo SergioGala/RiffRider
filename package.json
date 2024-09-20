@@ -19,6 +19,7 @@
     "framer-motion": "^11.5.5",
     "lodash": "^4.17.21",
     "lucide-react": "^0.439.0",
+    "server": "^1.0.39",
     "spotify-web-api-js": "^1.5.2",
     "three": "^0.168.0"
   },
