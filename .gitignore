@@ -1,32 +1,82 @@
-node_modules
-# Entorno virtual
-venv/
-env/
-.venv/
+# ignore all files starting with .
+.*
 
-# Archivos compilados de Python
-__pycache__/
-*.py[cod]
-*.so
+# track this file .gitignore (i.e. do NOT ignore it)
+!.gitignore
+!.github
+php_errorlog
+.log
 
-# Directorios de distribución
-dist/
-build/
-*.egg-info/
+# do not ignore gitpod and render files
+!.gitpod.Dockerfile
+!.welcome
+!.devcontainer
+!.devcontainer/*
+!Dockerfile.render
+!.gitpod.yml
+!render.yml
+!.render-buildpacks.json
 
-# Archivos de IDE y editores (opcional, pero recomendado)
-.vscode/
-.idea/
-*.swp
-*.swo
+# track webpack configs (i.e. do NOT ignore it)
+!composer.json
+!webpack.config.js
+!package.json
+!webpack.production.js
+!webpack.development.js
 
-# Archivos de sistema
-.DS_Store
+# track readme.md in the root (i.e. do NOT ignore it)
+!README.md
+
+# ignore OS generated files
+ehthumbs.db
 Thumbs.db
 
-# Archivos de registro y base de datos local
-*.log
-*.sqlite3
+# ignore Editor files
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
 
-# Archivos de entorno
-.env
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+# ignore compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# ignore packaged files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# ignore node/grunt dependency directories
+node_modules/
+
+# webpack output
+dist/*
+!public/
+!public/*
+
+# ignore the dist directory were our bundle files are going to be
+!.gitkeep
+!.htaccess
+!.eslintrc
+!.env.example
+.now
+
+# backend stuff
+.venv
+database.database
+database.db
+diagram.png
+__pycache__/
