@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-function Login() {
+function Login({ onLoginSuccess, onBackToApp }) {
   const [formData, setFormData] = useState({
     email: '',
     contraseña: ''
@@ -17,24 +17,9 @@ function Login() {
     }));
   };
 
-  // const validateForm = () => {
-  //   if (!formData.email || !formData.contraseña) {
-  //     setError('Por favor, complete todos los campos.');
-  //     return false;
-  //   }
-  //   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-  //     setError('Por favor, ingrese un email válido.');
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    // if (!validateForm()) return;
-
     setIsLoading(true);
     try {
       const response = await fetch('/api/login', {
@@ -48,8 +33,7 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         console.log('Inicio de sesión exitoso:', data);
-        // Aquí puedes manejar el inicio de sesión exitoso, como guardar el token de sesión
-        // y redirigir al usuario a la página principal
+        onLoginSuccess(data);
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Error en el inicio de sesión. Por favor, intente de nuevo.');
@@ -66,32 +50,42 @@ function Login() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="login-form"
+      className="auth-container"
     >
-      <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          name="contraseña"
-          value={formData.contraseña}
-          onChange={handleChange}
-          placeholder="Contraseña"
-          required
-        />
-        {error && <p className="error-message">{error}</p>}
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
-        </button>
-      </form>
+      <button onClick={onBackToApp} className="back-to-app-btn">Volver</button>
+      <div className="auth-form">
+        <div className="auth-content">
+          <h2>Iniciar Sesión</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              <label>Email</label>
+            </div>
+            <div className="input-group">
+              <input
+                type="password"
+                name="contraseña"
+                value={formData.contraseña}
+                onChange={handleChange}
+                required
+              />
+              <label>Contraseña</label>
+            </div>
+            {error && <p className="error-message">{error}</p>}
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+            </button>
+          </form>
+        </div>
+      </div>
     </motion.div>
   );
 }

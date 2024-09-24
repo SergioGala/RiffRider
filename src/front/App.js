@@ -43,6 +43,7 @@ function App() {
   const [currentAlbumCover, setCurrentAlbumCover] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [showAuthForms, setShowAuthForms] = useState(false);
 
   useEffect(() => {
     const hash = window.location.hash
@@ -170,6 +171,7 @@ function App() {
   const handleLogin = useCallback((userData) => {
     setIsLoggedIn(true);
     setUserId(userData.id);
+    setShowAuthForms(false);
     // Aquí puedes manejar el almacenamiento del token de sesión si es necesario
   }, []);
 
@@ -177,6 +179,10 @@ function App() {
     setIsLoggedIn(false);
     setUserId(null);
     // Aquí puedes manejar la eliminación del token de sesión si es necesario
+  }, []);
+
+  const handleBackToApp = useCallback(() => {
+    setShowAuthForms(false);
   }, []);
 
   return (
@@ -195,18 +201,19 @@ function App() {
       </header>
 
       <nav className="app-nav">
-        {!isLoggedIn ? (
+        {!isLoggedIn && (
           <>
-            <button onClick={() => setShowRegister(false)}>Iniciar Sesión</button>
-            <button onClick={() => setShowRegister(true)}>Registrarse</button>
+            <button onClick={() => { setShowRegister(false); setShowAuthForms(true); }}>Iniciar Sesión</button>
+            <button onClick={() => { setShowRegister(true); setShowAuthForms(true); }}>Registrarse</button>
           </>
-        ) : (
+        )}
+        {!spotifyToken && (
+          <button onClick={authorizeSpotify} className="spotify-auth-button">
+            Conectar con Spotify
+          </button>
+        )}
+        {isLoggedIn && (
           <>
-            {!spotifyToken && (
-              <button onClick={authorizeSpotify} className="spotify-auth-button">
-                Conectar con Spotify
-              </button>
-            )}
             <button onClick={() => setIsPartyMode(!isPartyMode)} className="party-mode-toggle">
               {isPartyMode ? 'Desactivar' : 'Activar'} Modo Fiesta
             </button>
@@ -219,11 +226,11 @@ function App() {
       </nav>
 
       <main className="app-main">
-        {!isLoggedIn ? (
+        {showAuthForms ? (
           showRegister ? (
-            <Register onRegisterSuccess={handleLogin} />
+            <Register onRegisterSuccess={handleLogin} onBackToApp={handleBackToApp} />
           ) : (
-            <Login onLoginSuccess={handleLogin} />
+            <Login onLoginSuccess={handleLogin} onBackToApp={handleBackToApp} />
           )
         ) : (
           <>
@@ -264,7 +271,7 @@ function App() {
                     </>
                   )
                 )}
-                <SuggestionQueue userId={userId} />
+                {isLoggedIn && <SuggestionQueue userId={userId} />}
               </>
             )}
           </>

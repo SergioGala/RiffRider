@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-function Register() {
+function Register({ onRegisterSuccess, onBackToApp }) {
   const [formData, setFormData] = useState({
     nombre: '',
     sexo: '',
@@ -21,32 +21,9 @@ function Register() {
     }));
   };
 
-  // const validateForm = () => {
-  //   if (!formData.nombre || !formData.sexo || !formData.edad || !formData.email || !formData.contraseña || !formData.nombre_de_usuario) {
-  //     setError('Por favor, complete todos los campos.');
-  //     return false;
-  //   }
-  //   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-  //     setError('Por favor, ingrese un email válido.');
-  //     return false;
-  //   }
-  //   if (formData.contraseña.length < 8) {
-  //     setError('La contraseña debe tener al menos 8 caracteres.');
-  //     return false;
-  //   }
-  //   if (isNaN(formData.edad) || formData.edad < 18 || formData.edad > 120) {
-  //     setError('Por favor, ingrese una edad válida (18-120).');
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    // if (!validateForm()) return;
-
     setIsLoading(true);
     try {
       const response = await fetch('/api/registro', {
@@ -60,7 +37,7 @@ function Register() {
       if (response.ok) {
         const data = await response.json();
         console.log('Usuario registrado con éxito:', data);
-        // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
+        onRegisterSuccess(data);
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Error en el registro. Por favor, intente de nuevo.');
@@ -77,67 +54,90 @@ function Register() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="register-form"
+      className="auth-container"
     >
-      <h2>Registro de Usuario</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="nombre"
-          value={formData.nombre}
-          onChange={handleChange}
-          placeholder="Nombre"
-          required
-        />
-        <select
-          name="sexo"
-          value={formData.sexo}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Seleccione sexo</option>
-          <option value="Hombre">Hombre</option>
-          <option value="Mujer">Mujer</option>
-          <option value="Otro">Otro</option>
-        </select>
-        <input
-          type="number"
-          name="edad"
-          value={formData.edad}
-          onChange={handleChange}
-          placeholder="Edad"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          name="contraseña"
-          value={formData.contraseña}
-          onChange={handleChange}
-          placeholder="Contraseña"
-          required
-        />
-        <input
-          type="text"
-          name="nombre_de_usuario"
-          value={formData.nombre_de_usuario}
-          onChange={handleChange}
-          placeholder="Nombre de Usuario"
-          required
-        />
-        {error && <p className="error-message">{error}</p>}
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Registrando...' : 'Registrarse'}
-        </button>
-      </form>
+      <button onClick={onBackToApp} className="back-to-app-btn">Volver</button>
+      <div className="auth-form">
+        <div className="auth-content">
+          <h2>Registro</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <input
+                type="text"
+                name="nombre"
+                value={formData.nombre}
+                onChange={handleChange}
+                required
+                placeholder=" "
+              />
+              <label>Nombre</label>
+            </div>
+            <div className="input-group">
+  <select
+    name="sexo"
+    value={formData.sexo}
+    onChange={handleChange}
+    required
+  >
+    <option value="" disabled>Seleccione sexo</option>
+    <option value="Hombre">Hombre</option>
+    <option value="Mujer">Mujer</option>
+    <option value="Otro">Otro</option>
+  </select>
+</div>
+            <div className="input-group">
+              <input
+                type="number"
+                name="edad"
+                value={formData.edad}
+                onChange={handleChange}
+                required
+                placeholder=" "
+              />
+              <label>Edad</label>
+            </div>
+            <div className="input-group">
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder=" "
+              />
+              <label>Email</label>
+            </div>
+            <div className="input-group">
+              <input
+                type="password"
+                name="contraseña"
+                value={formData.contraseña}
+                onChange={handleChange}
+                required
+                placeholder=" "
+              />
+              <label>Contraseña</label>
+            </div>
+            <div className="input-group">
+              <input
+                type="text"
+                name="nombre_de_usuario"
+                value={formData.nombre_de_usuario}
+                onChange={handleChange}
+                required
+                placeholder=" "
+              />
+              <label>Nombre de Usuario</label>
+            </div>
+            {error && <p className="error-message">{error}</p>}
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? 'Registrando...' : 'Registrarse'}
+            </button>
+          </form>
+        </div>
+      </div>
     </motion.div>
   );
 }
