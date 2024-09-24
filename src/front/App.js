@@ -15,6 +15,8 @@ import AudioVisualizer from './components/AudioVisualizer';
 import InternetConnectionCheck from './components/InternetConnectionCheck';
 import ThemeSelector from './components/ThemeSelector';
 import DynamicTheme from './components/DynamicTheme';
+import Register from './components/Register';
+import Login from './components/Login';
 import { submitSongRequest, getRequestQueue } from './services/SongRequestService';
 import { authorizeSpotify, setAccessToken, searchTracks } from './services/SpotifyService';
 import { themes } from './components/themes';
@@ -30,7 +32,7 @@ function App() {
   const [sortOrder, setSortOrder] = useState('asc');
   const [isLoading, setIsLoading] = useState(false);
   const [isPartyMode, setIsPartyMode] = useState(false);
-  const [userId] = useState(() => 'user_' + Math.random().toString(36).substr(2, 9));
+  const [userId, setUserId] = useState(null);
   const [requestQueue, setRequestQueue] = useState([]);
   const [isDjMode, setIsDjMode] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
@@ -39,6 +41,8 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState('pop');
   const [isDynamicThemeEnabled, setIsDynamicThemeEnabled] = useState(false);
   const [currentAlbumCover, setCurrentAlbumCover] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
   useEffect(() => {
     const hash = window.location.hash
@@ -163,80 +167,110 @@ function App() {
     setIsPlaying(false);
   }, []);
 
+  const handleLogin = useCallback((userData) => {
+    setIsLoggedIn(true);
+    setUserId(userData.id);
+    // Aquí puedes manejar el almacenamiento del token de sesión si es necesario
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    setIsLoggedIn(false);
+    setUserId(null);
+    // Aquí puedes manejar la eliminación del token de sesión si es necesario
+  }, []);
+
   return (
     <motion.div 
-    className="App fade-in"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.5 }}
-  >
-    <InternetConnectionCheck />
-    <TechnoLines />
-    <PartyMode isActive={isPartyMode} />
-    
-    <header className="app-header">
+      className="App fade-in"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <InternetConnectionCheck />
+      <TechnoLines />
+      <PartyMode isActive={isPartyMode} />
+      
+      <header className="app-header">
         <GlitchText text="🎧 YouDJ" />
       </header>
 
-    <nav className="app-nav">
-      {!spotifyToken ? (
-        <button onClick={authorizeSpotify} className="spotify-auth-button">
-          Conectar con Spotify
-        </button>
-      ) : (
-        <>
-          <button onClick={() => setIsPartyMode(!isPartyMode)} className="party-mode-toggle">
-            {isPartyMode ? 'Desactivar' : 'Activar'} Modo Fiesta
-          </button>
-          <button onClick={() => setIsDjMode(!isDjMode)} className="dj-mode-toggle">
-            {isDjMode ? 'Modo Usuario' : 'Modo DJ'}
-          </button>
-        </>
-      )}
-    </nav>
-
-    <main className="app-main">
-      {spotifyToken && !isDjMode && (
-        <SearchBar searchTerm={searchTerm} setSearchTerm={handleSearch} />
-      )}
-
-        {isDjMode ? (
-          <DjInterface 
-            currentSong={currentSong} 
-            onPlaySong={playSong}
-            requestQueue={requestQueue}
-            setRequestQueue={setRequestQueue}
-          />
+      <nav className="app-nav">
+        {!isLoggedIn ? (
+          <>
+            <button onClick={() => setShowRegister(false)}>Iniciar Sesión</button>
+            <button onClick={() => setShowRegister(true)}>Registrarse</button>
+          </>
         ) : (
           <>
-            <Sorting 
-              sortCriteria={sortCriteria} 
-              setSortCriteria={setSortCriteria}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-            />
-            {isLoading ? (
-              <LoadingIndicator />
-            ) : (
-              sortedSongs().length > 0 && (
-                <>
-                  <SongList 
-                    songs={getCurrentSongs()} 
-                    onPlaySong={playSong} 
-                    onSuggestSong={handleSuggestSong}
-                  />
-                  <Pagination 
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                </>
-              )
+            {!spotifyToken && (
+              <button onClick={authorizeSpotify} className="spotify-auth-button">
+                Conectar con Spotify
+              </button>
             )}
-            <SuggestionQueue userId={userId} />
+            <button onClick={() => setIsPartyMode(!isPartyMode)} className="party-mode-toggle">
+              {isPartyMode ? 'Desactivar' : 'Activar'} Modo Fiesta
+            </button>
+            <button onClick={() => setIsDjMode(!isDjMode)} className="dj-mode-toggle">
+              {isDjMode ? 'Modo Usuario' : 'Modo DJ'}
+            </button>
+            <button onClick={handleLogout}>Cerrar Sesión</button>
+          </>
+        )}
+      </nav>
+
+      <main className="app-main">
+        {!isLoggedIn ? (
+          showRegister ? (
+            <Register onRegisterSuccess={handleLogin} />
+          ) : (
+            <Login onLoginSuccess={handleLogin} />
+          )
+        ) : (
+          <>
+            {spotifyToken && !isDjMode && (
+              <SearchBar searchTerm={searchTerm} setSearchTerm={handleSearch} />
+            )}
+
+            {isDjMode ? (
+              <DjInterface 
+                currentSong={currentSong} 
+                onPlaySong={playSong}
+                requestQueue={requestQueue}
+                setRequestQueue={setRequestQueue}
+              />
+            ) : (
+              <>
+                <Sorting 
+                  sortCriteria={sortCriteria} 
+                  setSortCriteria={setSortCriteria}
+                  sortOrder={sortOrder}
+                  setSortOrder={setSortOrder}
+                />
+                {isLoading ? (
+                  <LoadingIndicator />
+                ) : (
+                  sortedSongs().length > 0 && (
+                    <>
+                      <SongList 
+                        songs={getCurrentSongs()} 
+                        onPlaySong={playSong} 
+                        onSuggestSong={handleSuggestSong}
+                      />
+                      <Pagination 
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                      />
+                    </>
+                  )
+                )}
+                <SuggestionQueue userId={userId} />
+              </>
+            )}
           </>
         )}
       </main>
+      
       <DynamicTheme 
         albumCover={currentAlbumCover}
         isEnabled={isDynamicThemeEnabled}
@@ -248,23 +282,23 @@ function App() {
         setIsDynamicThemeEnabled={setIsDynamicThemeEnabled}
       />
 
-<AudioVisualizer />
+      <AudioVisualizer />
 
-{currentSong && (
-  <AudioPlayer 
-    audioSrc={currentSong.preview_url}
-    songTitle={currentSong.name}
-    artistName={currentSong.artists}
-    albumCover={currentSong.album_image}
-    isPlaying={isPlaying}
-    setIsPlaying={setIsPlaying}
-    onClose={closeAudioPlayer}
-    primaryColor={themes[currentTheme].primary}
-    secondaryColor={themes[currentTheme].secondary}
-  />
-)}
-</motion.div>
-);
+      {currentSong && (
+        <AudioPlayer 
+          audioSrc={currentSong.preview_url}
+          songTitle={currentSong.name}
+          artistName={currentSong.artists}
+          albumCover={currentSong.album_image}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          onClose={closeAudioPlayer}
+          primaryColor={themes[currentTheme].primary}
+          secondaryColor={themes[currentTheme].secondary}
+        />
+      )}
+    </motion.div>
+  );
 }
 
 export default App;
