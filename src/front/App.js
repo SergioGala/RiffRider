@@ -13,7 +13,7 @@ import DjInterface from './components/DjInterface';
 import AudioPlayer from './components/AudioPlayer';
 import AudioVisualizer from './components/AudioVisualizer';
 import InternetConnectionCheck from './components/InternetConnectionCheck';
-import ThemeSelector from './components/ThemeSelector';
+import ThemeCarousel from './components/ThemeCarousel';
 import DynamicTheme from './components/DynamicTheme';
 import Register from './components/Register';
 import Login from './components/Login';
@@ -38,7 +38,11 @@ function App() {
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [spotifyToken, setSpotifyToken] = useState(null);
-  const [currentTheme, setCurrentTheme] = useState('pop');
+  const [currentTheme, setCurrentTheme] = useState({
+    name: 'pop',
+    mode: 'light',
+    ...themes.pop.light
+  });
   const [isDynamicThemeEnabled, setIsDynamicThemeEnabled] = useState(false);
   const [currentAlbumCover, setCurrentAlbumCover] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -75,16 +79,52 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const theme = themes[currentTheme];
-    Object.keys(theme).forEach(key => {
-      document.documentElement.style.setProperty(`--${key}`, theme[key]);
-    });
-    document.body.classList.add('theme-transition');
-    setTimeout(() => {
-      document.body.classList.remove('theme-transition');
-    }, 300);
-
-    window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: currentTheme } }));
+    if (currentTheme && currentTheme.name && themes[currentTheme.name]) {
+      const themeData = themes[currentTheme.name][currentTheme.mode];
+      if (themeData) {
+        Object.keys(themeData).forEach(key => {
+          document.documentElement.style.setProperty(`--${key}`, themeData[key]);
+        });
+  
+        // Aplicar fondo y patrón
+        document.body.style.backgroundColor = themeData.background || '';
+        document.body.style.backgroundImage = themeData.pattern || 'none';
+        
+        document.body.classList.add('theme-transition');
+        setTimeout(() => {
+          document.body.classList.remove('theme-transition');
+        }, 300);
+  
+        // Aplicar animación
+        const oldStyle = document.getElementById('theme-animations');
+        if (oldStyle) {
+          oldStyle.remove();
+        }
+  
+        if (themeData.animation && themeData.animation.name) {
+          const style = document.createElement('style');
+          style.id = 'theme-animations';
+          style.textContent = `
+            ${themeData.animation.keyframes}
+            .animated-element {
+              animation: ${themeData.animation.name} 2s infinite;
+            }
+          `;
+          document.head.appendChild(style);
+        }
+  
+        // Notificar cambio de tema
+        window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: currentTheme.name } }));
+      }
+    }
+  
+    // Limpieza
+    return () => {
+      const styleToRemove = document.getElementById('theme-animations');
+      if (styleToRemove) {
+        styleToRemove.remove();
+      }
+    };
   }, [currentTheme]);
 
   const handleSearch = useCallback(async (term) => {
@@ -172,13 +212,11 @@ function App() {
     setIsLoggedIn(true);
     setUserId(userData.id);
     setShowAuthForms(false);
-    // Aquí puedes manejar el almacenamiento del token de sesión si es necesario
   }, []);
 
   const handleLogout = useCallback(() => {
     setIsLoggedIn(false);
     setUserId(null);
-    // Aquí puedes manejar la eliminación del token de sesión si es necesario
   }, []);
 
   const handleBackToApp = useCallback(() => {
@@ -191,36 +229,40 @@ function App() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
+      style={{
+        fontFamily: currentTheme.font,
+        color: currentTheme.text
+      }}
     >
       <InternetConnectionCheck />
       <TechnoLines />
       <PartyMode isActive={isPartyMode} />
       
-      <header className="app-header">
+      <header className="app-header animated-element">
         <GlitchText text="🎧 YouDJ" />
       </header>
 
       <nav className="app-nav">
         {!isLoggedIn && (
           <>
-            <button onClick={() => { setShowRegister(false); setShowAuthForms(true); }}>Iniciar Sesión</button>
-            <button onClick={() => { setShowRegister(true); setShowAuthForms(true); }}>Registrarse</button>
+            <button className="animated-element" onClick={() => { setShowRegister(false); setShowAuthForms(true); }}>Iniciar Sesión</button>
+            <button className="animated-element" onClick={() => { setShowRegister(true); setShowAuthForms(true); }}>Registrarse</button>
           </>
         )}
         {!spotifyToken && (
-          <button onClick={authorizeSpotify} className="spotify-auth-button">
+          <button onClick={authorizeSpotify} className="spotify-auth-button animated-element">
             Conectar con Spotify
           </button>
         )}
         {isLoggedIn && (
           <>
-            <button onClick={() => setIsPartyMode(!isPartyMode)} className="party-mode-toggle">
+            <button onClick={() => setIsPartyMode(!isPartyMode)} className="party-mode-toggle animated-element">
               {isPartyMode ? 'Desactivar' : 'Activar'} Modo Fiesta
             </button>
-            <button onClick={() => setIsDjMode(!isDjMode)} className="dj-mode-toggle">
+            <button onClick={() => setIsDjMode(!isDjMode)} className="dj-mode-toggle animated-element">
               {isDjMode ? 'Modo Usuario' : 'Modo DJ'}
             </button>
-            <button onClick={handleLogout}>Cerrar Sesión</button>
+            <button onClick={handleLogout} className="animated-element">Cerrar Sesión</button>
           </>
         )}
       </nav>
@@ -282,14 +324,14 @@ function App() {
         albumCover={currentAlbumCover}
         isEnabled={isDynamicThemeEnabled}
       />
-      <ThemeSelector
+      <ThemeCarousel
         currentTheme={currentTheme}
         setCurrentTheme={setCurrentTheme}
         isDynamicThemeEnabled={isDynamicThemeEnabled}
         setIsDynamicThemeEnabled={setIsDynamicThemeEnabled}
       />
 
-      <AudioVisualizer />
+      <AudioVisualizer className="animated-element" />
 
       {currentSong && (
         <AudioPlayer 
@@ -300,8 +342,9 @@ function App() {
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           onClose={closeAudioPlayer}
-          primaryColor={themes[currentTheme].primary}
-          secondaryColor={themes[currentTheme].secondary}
+          primaryColor={currentTheme.primary}
+          secondaryColor={currentTheme.secondary}
+          className="animated-element"
         />
       )}
     </motion.div>
