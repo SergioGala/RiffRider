@@ -3,7 +3,7 @@ export const themes = {
     light: {
       primary: '#FF69B4',
       secondary: '#00CED1',
-      background: 'linear-gradient(to bottom right, #FFF0F5, #E6E6FA)',
+      background: '#FFF0F5',
       text: '#333333',
       accent: '#FF1493',
       hover: '#40E0D0',
@@ -24,7 +24,7 @@ export const themes = {
     dark: {
       primary: '#FF1493',
       secondary: '#20B2AA',
-      background: 'linear-gradient(to bottom right, #4B0082, #191970)',
+      background: '#191970',
       text: '#FFFFFF',
       accent: '#FF69B4',
       hover: '#48D1CC',
@@ -48,7 +48,7 @@ rock: {
   light: {
     primary: '#FF4500',
     secondary: '#1C1C1C',
-    background: 'linear-gradient(to bottom, #2F4F4F, #696969)',
+    background: "#2F4F4F",
     text: '#FFFFFF',
     accent: '#FFA500',
     hover: '#FF6347',
@@ -70,7 +70,7 @@ rock: {
   dark: {
     primary: '#FF6347',
     secondary: '#2F4F4F',
-    background: 'linear-gradient(to bottom, #000000, #2C2C2C)',
+    background: '#2C2C2C',
     text: '#FFFFFF',
     accent: '#FFA07A',
     hover: '#FF4500',
@@ -93,12 +93,12 @@ electronic: {
   light: {
     primary: '#00FF00',
     secondary: '#FF00FF',
-    background: 'linear-gradient(to bottom right, #000000, #1A1A1A)',
+    background: '#1A1A1A',
     text: '#FFFFFF',
     accent: '#00FFFF',
     hover: '#FF00FF',
     font: "'Orbitron', sans-serif",
-    buttonGradient: 'linear-gradient(45deg, #00FF00, #FF00FF)',
+    buttonGradient: ' #00FF00',
     boxShadow: '0 0 15px #00FF00',
     animation: {
       name: 'neonPulse',
@@ -114,12 +114,12 @@ electronic: {
   dark: {
     primary: '#00FF00',
     secondary: '#FF00FF',
-    background: 'linear-gradient(to bottom right, #000000, #0F0F0F)',
+    background: '#0F0F0F',
     text: '#FFFFFF',
     accent: '#00FFFF',
     hover: '#FF00FF',
     font: "'Orbitron', sans-serif",
-    buttonGradient: 'linear-gradient(45deg, #00FF00, #FF00FF)',
+    buttonGradient: '#00FF00',
     boxShadow: '0 0 15px #00FF00',
     animation: {
       name: 'electroBeat',
@@ -137,7 +137,7 @@ hiphop: {
   light: {
     primary: '#FFD700',
     secondary: '#4B0082',
-    background: 'linear-gradient(to bottom right, #F5F5F5, #D3D3D3)',
+    background: '#F5F5F5',
     text: '#000000',
     accent: '#FF4500',
     hover: '#DAA520',
@@ -158,7 +158,7 @@ hiphop: {
   dark: {
     primary: '#FFD700',
     secondary: '#4B0082',
-    background: 'linear-gradient(to bottom right, #1A1A1A, #2C2C2C)',
+    background: '#1A1A1A',
     text: '#FFFFFF',
     accent: '#FF4500',
     hover: '#DAA520',
@@ -182,7 +182,7 @@ jazz: {
   light: {
     primary: '#8B4513',
     secondary: '#DEB887',
-    background: 'linear-gradient(to bottom right, #F4A460, #FFDAB9)',
+    background: ' #F4A460',
     text: '#000000',
     accent: '#CD853F',
     hover: '#D2691E',
@@ -203,7 +203,7 @@ jazz: {
   dark: {
     primary: '#CD853F',
     secondary: '#8B4513',
-    background: 'linear-gradient(to bottom right, #2F1E0E, #4A2E1C)',
+    background: ' #2F1E0E',
     text: '#FFDAB9',
     accent: '#DEB887',
     hover: '#D2691E',
@@ -227,7 +227,7 @@ classical: {
   light: {
     primary: '#B8860B',
     secondary: '#4169E1',
-    background: 'linear-gradient(to bottom right, #F5F5DC, #FFFFF0)',
+    background: '#FFFFF0',
     text: '#000000',
     accent: '#8B0000',
     hover: '#DAA520',
@@ -249,7 +249,7 @@ classical: {
   dark: {
     primary: '#DAA520',
     secondary: '#4169E1',
-    background: 'linear-gradient(to bottom right, #1C1C1C, #2F4F4F)',
+    background: ' #1C1C1C',
     text: '#F5F5DC',
     accent: '#8B0000',
     hover: '#B8860B',
@@ -272,7 +272,7 @@ reggae: {
   light: {
     primary: '#009E49',
     secondary: '#FED100',
-    background: 'linear-gradient(to bottom right, #FFFFFF, #E6F3FF)',
+    background: '#E6F3FF',
     text: '#000000',
     accent: '#EE2737',
     hover: '#00C957',
@@ -293,7 +293,7 @@ reggae: {
   dark: {
     primary: '#00C957',
     secondary: '#FFD700',
-    background: 'linear-gradient(to bottom right, #1A1A1A, #2C2C2C)',
+    background: ' #2C2C2C',
     text: '#FFFFFF',
     accent: '#FF4500',
     hover: '#32CD32',
@@ -317,7 +317,7 @@ metal: {
   light: {
     primary: '#C0C0C0',
     secondary: '#8B0000',
-    background: 'linear-gradient(to bottom right, #D3D3D3, #A9A9A9)',
+    background: ' #D3D3D3',
     text: '#000000',
     accent: '#FF4500',
     hover: '#B8860B',
@@ -339,7 +339,7 @@ metal: {
   dark: {
     primary: '#1C1C1C',
     secondary: '#8B0000',
-    background: 'linear-gradient(to bottom right, #000000, #1A1A1A)',
+    background: ' #1A1A1A',
     text: '#FFFFFF',
     accent: '#FF4500',
     hover: '#C0C0C0',
@@ -362,7 +362,7 @@ punk: {
   light: {
     primary: '#FF1493',
     secondary: '#000000',
-    background: 'linear-gradient(to bottom right, #FFFFFF, #F0F0F0)',
+    background: ' #FFFFFF',
     text: '#000000',
     accent: '#00FF00',
     hover: '#FF4500',
@@ -384,7 +384,7 @@ punk: {
   dark: {
     primary: '#FF1493',
     secondary: '#FFFFFF',
-    background: 'linear-gradient(to bottom right, #000000, #1A1A1A)',
+    background: '#1A1A1A',
     text: '#FFFFFF',
     accent: '#00FF00',
     hover: '#FF4500',
@@ -407,7 +407,7 @@ folk: {
   light: {
     primary: '#8B4513',
     secondary: '#6B8E23',
-    background: 'linear-gradient(to bottom right, #F0E68C, #FAFAD2)',
+    background: ' #F0E68C',
     text: '#000000',
     accent: '#D2691E',
     hover: '#556B2F',
@@ -429,7 +429,7 @@ folk: {
   dark: {
     primary: '#D2691E',
     secondary: '#556B2F',
-    background: 'linear-gradient(to bottom right, #2F4F4F, #3C3C3C)',
+    background: '#3C3C3C',
     text: '#F5DEB3',
     accent: '#8B4513',
     hover: '#6B8E23',
@@ -452,7 +452,7 @@ rnb: {
   light: {
     primary: '#9932CC',
     secondary: '#FF8C00',
-    background: 'linear-gradient(to bottom right, #F8F8FF, #E6E6FA)',
+    background: '#F8F8FF',
     text: '#000000',
     accent: '#4B0082',
     hover: '#DDA0DD',
@@ -473,7 +473,7 @@ rnb: {
   dark: {
     primary: '#8A2BE2',
     secondary: '#FFA500',
-    background: 'linear-gradient(to bottom right, #191970, #4B0082)',
+    background: ' #4B0082',
     text: '#FFFFFF',
     accent: '#FF69B4',
     hover: '#9370DB',
@@ -496,7 +496,7 @@ disco: {
   light: {
     primary: '#FF69B4',
     secondary: '#FFD700',
-    background: 'linear-gradient(to bottom right, #FFFFFF, #F0F8FF)',
+    background: ' #F0F8FF',
     text: '#000000',
     accent: '#00CED1',
     hover: '#FF1493',
@@ -518,7 +518,7 @@ disco: {
   dark: {
     primary: '#FF1493',
     secondary: '#FFD700',
-    background: 'linear-gradient(to bottom right, #4B0082, #000000)',
+    background: ' #4B0082',
     text: '#FFFFFF',
     accent: '#00FFFF',
     hover: '#FF69B4',
@@ -541,7 +541,7 @@ techno: {
   light: {
     primary: '#00FFFF',
     secondary: '#FF00FF',
-    background: 'linear-gradient(to bottom right, #F0F0F0, #E0E0E0)',
+    background: ' #E0E0E0',
     text: '#000000',
     accent: '#00FF00',
     hover: '#0000FF',
@@ -562,7 +562,7 @@ techno: {
   dark: {
     primary: '#00FFFF',
     secondary: '#FF00FF',
-    background: 'linear-gradient(to bottom right, #000000, #1A1A1A)',
+    background: ' #000000',
     text: '#FFFFFF',
     accent: '#00FF00',
     hover: '#0000FF',
@@ -585,7 +585,7 @@ indie: {
   light: {
     primary: '#FF6347',
     secondary: '#48D1CC',
-    background: 'linear-gradient(to bottom right, #F5F5F5, #E0E0E0)',
+    background: ' #F5F5F5',
     text: '#333333',
     accent: '#FFA07A',
     hover: '#20B2AA',
@@ -606,7 +606,7 @@ indie: {
   dark: {
     primary: '#FF6347',
     secondary: '#48D1CC',
-    background: 'linear-gradient(to bottom right, #2C3E50, #34495E)',
+    background: ' #34495E',
     text: '#FFFFFF',
     accent: '#FFA07A',
     hover: '#20B2AA',
@@ -629,7 +629,7 @@ grunge: {
   light: {
     primary: '#8B0000',
     secondary: '#2F4F4F',
-    background: 'linear-gradient(to bottom right, #D3D3D3, #A9A9A9)',
+    background: ' #A9A9A9',
     text: '#000000',
     accent: '#CD5C5C',
     hover: '#556B2F',
@@ -651,7 +651,7 @@ grunge: {
   dark: {
     primary: '#8B0000',
     secondary: '#2F4F4F',
-    background: 'linear-gradient(to bottom right, #1C1C1C, #2C2C2C)',
+    background: '#1C1C1C',
     text: '#D3D3D3',
     accent: '#CD5C5C',
     hover: '#556B2F',
@@ -674,7 +674,7 @@ synthwave: {
   light: {
     primary: '#FF1493',
     secondary: '#00FFFF',
-    background: 'linear-gradient(to bottom right, #FF6AD5, #C774E8, #AD8CFF)',
+    background: '#FF6AD5',
     text: '#FFFFFF',
     accent: '#FFA500',
     hover: '#FF00FF',
@@ -695,7 +695,7 @@ synthwave: {
   dark: {
     primary: '#FF1493',
     secondary: '#00FFFF',
-    background: 'linear-gradient(to bottom right, #000080, #4B0082)',
+    background: ' #4B0082',
     text: '#FFFFFF',
     accent: '#FFA500',
     hover: '#FF00FF',
@@ -718,7 +718,7 @@ lofi: {
   light: {
     primary: '#20B2AA',
     secondary: '#FFA07A',
-    background: 'linear-gradient(to bottom right, #F0F8FF, #E6E6FA)',
+    background: '#F0F8FF',
     text: '#4A4A4A',
     accent: '#DDA0DD',
     hover: '#5F9EA0',
@@ -739,7 +739,7 @@ lofi: {
   dark: {
     primary: '#20B2AA',
     secondary: '#FFA07A',
-    background: 'linear-gradient(to bottom right, #2C3E50, #34495E)',
+    background: ' #34495E',
     text: '#E0E0E0',
     accent: '#DDA0DD',
     hover: '#5F9EA0',
