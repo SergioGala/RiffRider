@@ -52,6 +52,9 @@ function App() {
   const [showAuthForms, setShowAuthForms] = useState(false);
   const [isAmbientMode, setIsAmbientMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const togglePlayPause = useCallback(() => {
+    setIsPlaying(prevIsPlaying => !prevIsPlaying);
+  }, []);
 
   useEffect(() => {
     const hash = window.location.hash
@@ -284,12 +287,30 @@ function App() {
       </header>
 
       <main className="app-main">
-        {isAmbientMode ? (
-          <AmbientScreen 
-            currentTheme={currentTheme}
-            currentSong={currentSong}
-            onExit={toggleAmbientMode}
-          />
+      {isAmbientMode ? (
+  <AmbientScreen 
+    currentTheme={currentTheme}
+    currentSong={currentSong}
+    onExit={toggleAmbientMode}
+    isPlaying={isPlaying}
+    togglePlayPause={() => setIsPlaying(!isPlaying)}
+    AudioPlayer={
+      currentSong && (
+        <AudioPlayer 
+          audioSrc={currentSong.preview_url}
+          songTitle={currentSong.name}
+          artistName={currentSong.artists}
+          albumCover={currentSong.album_image}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          onClose={closeAudioPlayer}
+          primaryColor={currentTheme.primary}
+          secondaryColor={currentTheme.secondary}
+          className="animated-element"
+        />
+      )
+    }
+  />
         ) : showAuthForms ? (
           showRegister ? (
             <Register onRegisterSuccess={handleLogin} onBackToApp={handleBackToApp} />
