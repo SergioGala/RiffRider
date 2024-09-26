@@ -42,30 +42,29 @@ body {
 }
 .app-nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
-  margin-bottom: 20px;
+  gap: 10px;
+  padding: 10px;
 }
 
 .app-nav button,
 .nav-auth-button {
-  padding: 10px 20px;
-  font-size: 1em;
-  color: var(--primary);
-  background: transparent;
-  border: 2px solid var(--primary);
-  border-radius: 5px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  background-color: var(--primary);
+  color: var(--background);
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
 .app-nav button:hover,
 .nav-auth-button:hover {
-  background: var(--primary);
-  color: var(--background);
-  box-shadow: 0 0 15px var(--primary);
+  background-color: var(--secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes pulsate {
@@ -1712,4 +1711,47 @@ input[type="number"] {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
+}
+.menu-container {
+  position: relative;
+  z-index: 1000;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: var(--background);
+  border: 1px solid var(--primary);
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 1001;
+  min-width: 200px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dropdown-menu button:hover {
+  background-color: var(--primary);
+  color: var(--background);
 }
