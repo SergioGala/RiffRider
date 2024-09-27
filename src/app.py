@@ -10,6 +10,7 @@ from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+from flask_bcrypt import Bcrypt  # Importar Bcrypt
 
 # Configuración de entorno
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -17,6 +18,9 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+# Inicializar Bcrypt
+bcrypt = Bcrypt(app)
 
 # Configuración de la base de datos
 db_url = os.getenv("DATABASE_URL")
@@ -30,17 +34,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
-# Registro de bcrypt (opcional, si no lo tienes en routes.py)
-# from flask_bcrypt import Bcrypt
-# bcrypt = Bcrypt(app)
-
 # Añadir el panel de administración
 setup_admin(app)
 
 # Añadir comandos customizados
 setup_commands(app)
 
-# Registrar el Blueprint de la API
+# Registrar el Blueprint de la API (bcrypt ya está inicializado aquí)
 app.register_blueprint(api, url_prefix='/api')
 
 # Manejo de errores como objetos JSON
@@ -68,4 +68,3 @@ def serve_any_other_file(path):
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
-    
