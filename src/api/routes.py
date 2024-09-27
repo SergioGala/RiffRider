@@ -1,16 +1,15 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, Blueprint
-from api.models import db, User
-from api.utils import generate_sitemap, APIException
+from flask import request, jsonify, Blueprint
+from api.models import db, Usuario
 from flask_cors import CORS
-from werkzeug.security import check_password_hash
+
 
 api = Blueprint('api', __name__)
 
-# Allow CORS requests to this API
-CORS(api)
+# Permitir solicitudes CORS a esta API
+CORS(api,supports_credentials=True)
 
 # Ruta existente que ya tienes
 @api.route('/hello', methods=['POST', 'GET'])
@@ -21,18 +20,46 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+
+
 # Nuevo endpoint para el inicio de sesión
 @api.route('login', methods=['POST'])
 def login():
     # Obtener los datos enviados por el frontend
     data = request.get_json()
     email = data.get('email')
-    password = data.get('password')
+    password = data.get('contraseña')
 
     # Verificar si el usuario existe
-    user = User.query.filter_by(email=email).first()
+    user = Usuario.query.filter_by(email=email).first()
 
-    if user and check_password_hash(user['password'], password):
+    if user and bcrypt.checkpw(password.encode('utf-8'), user.password) :
         return jsonify({"message": "Inicio de sesión exitoso"}), 200
     else:
         return jsonify({"message": "Credenciales inválidas"}), 401
+    
+    
+    
+# Endpoint para registrar un usuario
+@api.route('/registro', methods=['POST'])
+def registrar_usuario():
+    data = request.get_json()
+
+    # Encriptar la contraseña utilizando bcrypt inicializado en app.py
+    contraseña_encriptada = bcrypt.hashpw(data["contaseña"].encode('utf-8'), bcrypt.gensalt())
+
+    # Crear el nuevo usuario
+    nuevo_usuario = Usuario(
+        nombre_de_usuario=data['nombre_de_usuario'],
+        email=data['email'],
+        contraseña=contraseña_encriptada,
+        nombre=data['nombre'],
+        sexo=data['sexo'],
+        edad=data['edad']
+    )
+
+    # Guardar el usuario en la base de datos
+    db.session.add(nuevo_usuario)
+    db.session.commit()
+
+    return jsonify({"mensaje": "Usuario registrado exitosamente"}), 201
