@@ -33,11 +33,8 @@ def update_password():
     if not user:
         return jsonify({"msg": "Usuario no encontrado"}), 404
 
-    # Cifrar la nueva contraseña
-    hashed_password = generate_password_hash(new_password)
-
     # Actualizar la contraseña del usuario en la base de datos
-    user.password = hashed_password
+    user.contraseña = bcrypt.generate_password_hash(new_password).decode('utf-8')
 
     # Guardar los cambios en la base de datos
     try:
