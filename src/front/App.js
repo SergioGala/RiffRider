@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar';
 import SongList from './components/SongList';
 import Pagination from './components/Pagination';
 import Sorting from './components/Sorting';
+import AmbientScreen from './components/AmbientScreen';
 import LoadingIndicator from './components/LoadingIndicator';
 import TechnoLines from './components/TechnoLines';
 import PartyMode from './components/PartyMode';
@@ -13,13 +14,16 @@ import DjInterface from './components/DjInterface';
 import AudioPlayer from './components/AudioPlayer';
 import AudioVisualizer from './components/AudioVisualizer';
 import InternetConnectionCheck from './components/InternetConnectionCheck';
-import ThemeSelector from './components/ThemeSelector';
+import ThemeCarousel from './components/ThemeCarousel';
 import DynamicTheme from './components/DynamicTheme';
+import Register from './components/Register';
+import Login from './components/Login';
 import { submitSongRequest, getRequestQueue } from './services/SongRequestService';
 import { authorizeSpotify, setAccessToken, searchTracks } from './services/SpotifyService';
 import { themes } from './components/themes';
+import { LogIn, UserPlus,  Headphones, Music, Disc, LogOut, Sun, Moon } from 'lucide-react';
 import './App.css';
-import './animations.css';
+import './animations.css'
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,15 +34,27 @@ function App() {
   const [sortOrder, setSortOrder] = useState('asc');
   const [isLoading, setIsLoading] = useState(false);
   const [isPartyMode, setIsPartyMode] = useState(false);
-  const [userId] = useState(() => 'user_' + Math.random().toString(36).substr(2, 9));
+  const [userId, setUserId] = useState(null);
   const [requestQueue, setRequestQueue] = useState([]);
   const [isDjMode, setIsDjMode] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [spotifyToken, setSpotifyToken] = useState(null);
-  const [currentTheme, setCurrentTheme] = useState('pop');
+  const [currentTheme, setCurrentTheme] = useState({
+    name: 'pop',
+    mode: 'light',
+    ...themes.pop.light
+  });
   const [isDynamicThemeEnabled, setIsDynamicThemeEnabled] = useState(false);
   const [currentAlbumCover, setCurrentAlbumCover] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showAuthForms, setShowAuthForms] = useState(false);
+  const [isAmbientMode, setIsAmbientMode] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const togglePlayPause = useCallback(() => {
+    setIsPlaying(prevIsPlaying => !prevIsPlaying);
+  }, []);
 
   useEffect(() => {
     const hash = window.location.hash
@@ -70,16 +86,48 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const theme = themes[currentTheme];
-    Object.keys(theme).forEach(key => {
-      document.documentElement.style.setProperty(`--${key}`, theme[key]);
-    });
-    document.body.classList.add('theme-transition');
-    setTimeout(() => {
-      document.body.classList.remove('theme-transition');
-    }, 300);
-
-    window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: currentTheme } }));
+    if (currentTheme && currentTheme.name && themes[currentTheme.name]) {
+      const themeData = themes[currentTheme.name][currentTheme.mode];
+      if (themeData) {
+        Object.keys(themeData).forEach(key => {
+          document.documentElement.style.setProperty(`--${key}`, themeData[key]);
+        });
+  
+        document.body.style.backgroundColor = themeData.background || '';
+        document.body.style.backgroundImage = themeData.pattern || 'none';
+        
+        document.body.classList.add('theme-transition');
+        setTimeout(() => {
+          document.body.classList.remove('theme-transition');
+        }, 300);
+  
+        const oldStyle = document.getElementById('theme-animations');
+        if (oldStyle) {
+          oldStyle.remove();
+        }
+  
+        if (themeData.animation && themeData.animation.name) {
+          const style = document.createElement('style');
+          style.id = 'theme-animations';
+          style.textContent = `
+            ${themeData.animation.keyframes}
+            .animated-element {
+              animation: ${themeData.animation.name} 2s infinite;
+            }
+          `;
+          document.head.appendChild(style);
+        }
+  
+        window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: currentTheme.name } }));
+      }
+    }
+  
+    return () => {
+      const styleToRemove = document.getElementById('theme-animations');
+      if (styleToRemove) {
+        styleToRemove.remove();
+      }
+    };
   }, [currentTheme]);
 
   const handleSearch = useCallback(async (term) => {
@@ -163,108 +211,189 @@ function App() {
     setIsPlaying(false);
   }, []);
 
-  return (
+  const handleLogin = useCallback((userData) => {
+    setIsLoggedIn(true);
+    setUserId(userData.id);
+    setShowAuthForms(false);
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    setIsLoggedIn(false);
+    setUserId(null);
+  }, []);
+
+  const handleBackToApp = useCallback(() => {
+    setShowAuthForms(false);
+  }, []);
+
+  const toggleAmbientMode = useCallback(() => {
+    setIsAmbientMode(prev => !prev);
+  }, []);
+
+  useEffect(() => {
+    const closeMenu = (e) => {
+      if (isMenuOpen && !e.target.closest('.menu-container')) {
+        setIsMenuOpen(false);
+      }
+    };
+  
+    document.addEventListener('click', closeMenu);
+  
+    return () => {
+      document.removeEventListener('click', closeMenu);
+    };
+  }, [isMenuOpen]);
+
+ return (
     <motion.div 
-    className="App fade-in"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.5 }}
-  >
-    <InternetConnectionCheck />
-    <TechnoLines />
-    <PartyMode isActive={isPartyMode} />
-    
-    <header className="app-header">
+      className="App fade-in"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      style={{
+        fontFamily: currentTheme.font,
+        color: currentTheme.text
+      }}
+    >
+      <InternetConnectionCheck />
+      <TechnoLines />
+      <PartyMode isActive={isPartyMode} />
+      
+      <header className="app-header animated-element">
         <GlitchText text="🎧 YouDJ" />
+        <nav className="app-nav">
+          <button onClick={() => { setShowRegister(false); setShowAuthForms(true); }} title="Iniciar Sesión">
+            <LogIn />
+          </button>
+          <button onClick={() => { setShowRegister(true); setShowAuthForms(true); }} title="Registrarse">
+            <UserPlus />
+          </button>
+          <button onClick={authorizeSpotify} title="Conectar con Spotify">
+            <Headphones />
+          </button>
+          <button onClick={() => setIsPartyMode(!isPartyMode)} title={isPartyMode ? 'Desactivar Modo Fiesta' : 'Activar Modo Fiesta'}>
+            <Music />
+          </button>
+          <button onClick={() => setIsDjMode(!isDjMode)} title={isDjMode ? 'Modo Usuario' : 'Modo DJ'}>
+            <Disc />
+          </button>
+          <button onClick={handleLogout} title="Cerrar Sesión">
+            <LogOut />
+          </button>
+          <button onClick={toggleAmbientMode} title={isAmbientMode ? 'Salir de Modo Ambiente' : 'Entrar en Modo Ambiente'}>
+            {isAmbientMode ? <Sun /> : <Moon />}
+          </button>
+        </nav>
       </header>
 
-    <nav className="app-nav">
-      {!spotifyToken ? (
-        <button onClick={authorizeSpotify} className="spotify-auth-button">
-          Conectar con Spotify
-        </button>
-      ) : (
-        <>
-          <button onClick={() => setIsPartyMode(!isPartyMode)} className="party-mode-toggle">
-            {isPartyMode ? 'Desactivar' : 'Activar'} Modo Fiesta
-          </button>
-          <button onClick={() => setIsDjMode(!isDjMode)} className="dj-mode-toggle">
-            {isDjMode ? 'Modo Usuario' : 'Modo DJ'}
-          </button>
-        </>
-      )}
-    </nav>
-
-    <main className="app-main">
-      {spotifyToken && !isDjMode && (
-        <SearchBar searchTerm={searchTerm} setSearchTerm={handleSearch} />
-      )}
-
-        {isDjMode ? (
-          <DjInterface 
-            currentSong={currentSong} 
-            onPlaySong={playSong}
-            requestQueue={requestQueue}
-            setRequestQueue={setRequestQueue}
-          />
+      <main className="app-main">
+      {isAmbientMode ? (
+  <AmbientScreen 
+    currentTheme={currentTheme}
+    currentSong={currentSong}
+    onExit={toggleAmbientMode}
+    isPlaying={isPlaying}
+    togglePlayPause={togglePlayPause}
+    AudioPlayer={
+      <AudioPlayer 
+        audioSrc={currentSong?.preview_url}
+        songTitle={currentSong?.name}
+        artistName={currentSong?.artists}
+        albumCover={currentSong?.album_image}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        onClose={closeAudioPlayer}
+        primaryColor={currentTheme.primary}
+        secondaryColor={currentTheme.secondary}
+        className="animated-element"
+      />
+    }
+  />
+        ) : showAuthForms ? (
+          showRegister ? (
+            <Register onRegisterSuccess={handleLogin} onBackToApp={handleBackToApp} />
+          ) : (
+            <Login onLoginSuccess={handleLogin} onBackToApp={handleBackToApp} />
+          )
         ) : (
           <>
-            <Sorting 
-              sortCriteria={sortCriteria} 
-              setSortCriteria={setSortCriteria}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-            />
-            {isLoading ? (
-              <LoadingIndicator />
-            ) : (
-              sortedSongs().length > 0 && (
-                <>
-                  <SongList 
-                    songs={getCurrentSongs()} 
-                    onPlaySong={playSong} 
-                    onSuggestSong={handleSuggestSong}
-                  />
-                  <Pagination 
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                </>
-              )
+            {spotifyToken && !isDjMode && (
+              <SearchBar searchTerm={searchTerm} setSearchTerm={handleSearch} />
             )}
-            <SuggestionQueue userId={userId} />
+
+            {isDjMode ? (
+              <DjInterface 
+                currentSong={currentSong} 
+                onPlaySong={playSong}
+                requestQueue={requestQueue}
+                setRequestQueue={setRequestQueue}
+              />
+            ) : (
+              <>
+                <Sorting 
+                  sortCriteria={sortCriteria} 
+                  setSortCriteria={setSortCriteria}
+                  sortOrder={sortOrder}
+                  setSortOrder={setSortOrder}
+                />
+                {isLoading ? (
+                  <LoadingIndicator />
+                ) : (
+                  sortedSongs().length > 0 && (
+                    <>
+                      <SongList 
+                        songs={getCurrentSongs()} 
+                        onPlaySong={playSong} 
+                        onSuggestSong={handleSuggestSong}
+                      />
+                      <Pagination 
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                      />
+                    </>
+                  )
+                )}
+                <SuggestionQueue userId={userId} />
+              </>
+            )}
           </>
         )}
       </main>
-      <DynamicTheme 
-        albumCover={currentAlbumCover}
-        isEnabled={isDynamicThemeEnabled}
-      />
-      <ThemeSelector
-        currentTheme={currentTheme}
-        setCurrentTheme={setCurrentTheme}
-        isDynamicThemeEnabled={isDynamicThemeEnabled}
-        setIsDynamicThemeEnabled={setIsDynamicThemeEnabled}
-      />
+      
+      {!isAmbientMode && (
+        <>
+          <DynamicTheme 
+            albumCover={currentAlbumCover}
+            isEnabled={isDynamicThemeEnabled}
+          />
+          <ThemeCarousel
+            currentTheme={currentTheme}
+            setCurrentTheme={setCurrentTheme}
+            isDynamicThemeEnabled={isDynamicThemeEnabled}
+            setIsDynamicThemeEnabled={setIsDynamicThemeEnabled}
+          />
 
-<AudioVisualizer />
+          <AudioVisualizer className="animated-element" />
 
-{currentSong && (
-  <AudioPlayer 
-    audioSrc={currentSong.preview_url}
-    songTitle={currentSong.name}
-    artistName={currentSong.artists}
-    albumCover={currentSong.album_image}
-    isPlaying={isPlaying}
-    setIsPlaying={setIsPlaying}
-    onClose={closeAudioPlayer}
-    primaryColor={themes[currentTheme].primary}
-    secondaryColor={themes[currentTheme].secondary}
-  />
-)}
-</motion.div>
-);
+          {currentSong && (
+            <AudioPlayer 
+              audioSrc={currentSong.preview_url}
+              songTitle={currentSong.name}
+              artistName={currentSong.artists}
+              albumCover={currentSong.album_image}
+              isPlaying={isPlaying}
+              setIsPlaying={setIsPlaying}
+              onClose={closeAudioPlayer}
+              primaryColor={currentTheme.primary}
+              secondaryColor={currentTheme.secondary}
+              className="animated-element"
+            />
+          )}
+        </>
+      )}
+    </motion.div>
+  );
 }
 
 export default App;
