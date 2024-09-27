@@ -10,7 +10,7 @@ from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-from flask_bcrypt import Bcrypt  # Importar Bcrypt
+from extensiones import bcrypt
 
 # Configuración de entorno
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -20,7 +20,7 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 # Inicializar Bcrypt
-bcrypt = Bcrypt(app)
+bcrypt.init_app(app)
 
 # Configuración de la base de datos
 db_url = os.getenv("DATABASE_URL")
