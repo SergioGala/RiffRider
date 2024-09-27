@@ -4,6 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import request, jsonify, Blueprint
 from api.models import db, Usuario
 from flask_cors import CORS
+from extensiones import bcrypt
 
 
 api = Blueprint('api', __name__)
@@ -33,7 +34,7 @@ def login():
     # Verificar si el usuario existe
     user = Usuario.query.filter_by(email=email).first()
 
-    if user and bcrypt.checkpw(password.encode('utf-8'), user.password) :
+    if user and bcrypt.check_password_hash(user.contraseña, password):
         return jsonify({"message": "Inicio de sesión exitoso"}), 200
     else:
         return jsonify({"message": "Credenciales inválidas"}), 401
@@ -46,7 +47,7 @@ def registrar_usuario():
     data = request.get_json()
 
     # Encriptar la contraseña utilizando bcrypt inicializado en app.py
-    contraseña_encriptada = bcrypt.hashpw(data["contaseña"].encode('utf-8'), bcrypt.gensalt())
+    contraseña_encriptada = bcrypt.generate_password_hash(data["contraseña"]).decode('utf-8')
 
     # Crear el nuevo usuario
     nuevo_usuario = Usuario(
