@@ -8,6 +8,7 @@ function Login({ onLoginSuccess, onBackToApp }) {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +23,7 @@ function Login({ onLoginSuccess, onBackToApp }) {
     setError('');
     setIsLoading(true);
     try {
-      const response = await fetch(process.env.BACKEND_URL+'login', {
+      const response = await fetch(process.env.BACKEND_URL + 'login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,6 +47,34 @@ function Login({ onLoginSuccess, onBackToApp }) {
     }
   };
 
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+    try {
+      const response = await fetch(process.env.BACKEND_URL + 'reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: formData.email }),
+      });
+
+      if (response.ok) {
+        setIsResettingPassword(false);
+        setError('Se ha enviado un correo con instrucciones para restablecer la contraseña.');
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Error al solicitar el restablecimiento de contraseña. Por favor, intente de nuevo.');
+      }
+    } catch (error) {
+      console.error('Error al enviar la solicitud:', error);
+      setError('Error de conexión. Por favor, intente de nuevo más tarde.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -57,8 +86,8 @@ function Login({ onLoginSuccess, onBackToApp }) {
       <button onClick={onBackToApp} className="back-to-app-btn">Volver</button>
       <div className="auth-form">
         <div className="auth-content">
-          <h2>Iniciar Sesión</h2>
-          <form onSubmit={handleSubmit}>
+          <h2>{isResettingPassword ? 'Restablecer Contraseña' : 'Iniciar Sesión'}</h2>
+          <form onSubmit={isResettingPassword ? handleResetPassword : handleSubmit}>
             <div className="input-group">
               <input
                 type="email"
@@ -66,24 +95,34 @@ function Login({ onLoginSuccess, onBackToApp }) {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                placeholder=" "
               />
               <label>Email</label>
             </div>
-            <div className="input-group">
-              <input
-                type="password"
-                name="contraseña"
-                value={formData.contraseña}
-                onChange={handleChange}
-                required
-              />
-              <label>Contraseña</label>
-            </div>
+            {!isResettingPassword && (
+              <div className="input-group">
+                <input
+                  type="password"
+                  name="contraseña"
+                  value={formData.contraseña}
+                  onChange={handleChange}
+                  required
+                  placeholder=" "
+                />
+                <label>Contraseña</label>
+              </div>
+            )}
             {error && <p className="error-message">{error}</p>}
-            <button type="submit" disabled={isLoading}>
-              {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+            <button type="submit" disabled={isLoading} className="submit-btn">
+              {isLoading ? 'Procesando...' : (isResettingPassword ? 'Enviar Solicitud' : 'Iniciar Sesión')}
             </button>
           </form>
+          <p 
+            className="reset-password-link" 
+            onClick={() => setIsResettingPassword(!isResettingPassword)}
+          >
+            {isResettingPassword ? 'Volver al inicio de sesión' : '¿Olvidaste tu contraseña?'}
+          </p>
         </div>
       </div>
     </motion.div>

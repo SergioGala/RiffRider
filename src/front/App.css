@@ -1829,3 +1829,20 @@ input[type="number"] {
   margin: 5px 0 0;
   font-size: 0.9em;
 }
+.reset-password-link {
+  color: var(--primary);
+  text-align: center;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.reset-password-link:hover {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 30px;
+}
