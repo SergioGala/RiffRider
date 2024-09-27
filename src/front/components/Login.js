@@ -22,7 +22,7 @@ function Login({ onLoginSuccess, onBackToApp }) {
     setError('');
     setIsLoading(true);
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch(process.env.BACKEND_URL+'login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

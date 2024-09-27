@@ -12,13 +12,6 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
-# Simulación de una base de datos de usuarios (puedes sustituirlo por la base de datos real)
-users_db = {
-    "joanzam@gmail.com": {
-        "password": "hashed_password_here"  # Aquí deberías tener contraseñas hasheadas
-    }
-}
-
 # Ruta existente que ya tienes
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -29,7 +22,7 @@ def handle_hello():
     return jsonify(response_body), 200
 
 # Nuevo endpoint para el inicio de sesión
-@api.route('/api/login', methods=['POST'])
+@api.route('login', methods=['POST'])
 def login():
     # Obtener los datos enviados por el frontend
     data = request.get_json()
@@ -37,7 +30,8 @@ def login():
     password = data.get('password')
 
     # Verificar si el usuario existe
-    user = users_db.get(email)
+    user = User.query.filter_by(email=email).first()
+
     if user and check_password_hash(user['password'], password):
         return jsonify({"message": "Inicio de sesión exitoso"}), 200
     else:
