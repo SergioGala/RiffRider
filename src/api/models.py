@@ -1,5 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
+# models.py
 
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
@@ -20,6 +21,21 @@ class Usuario(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            # do not serialize the password, its a security breach
         }
-   
+
+# Modelo para Comentarios
+class Comentario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    cancion_id = db.Column(db.String(100), nullable=False)  # o usa otro tipo según tu diseño
+    comentario = db.Column(db.String(500), nullable=False)
+
+    usuario = db.relationship('Usuario', backref='comentarios')
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "usuario_id": self.usuario_id,
+            "cancion_id": self.cancion_id,
+            "comentario": self.comentario,
+        }

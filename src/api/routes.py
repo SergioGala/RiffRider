@@ -2,15 +2,14 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import request, jsonify, Blueprint
-from api.models import db, Usuario
+from api.models import db, Usuario, Comentario  # Asegúrate de importar el modelo Comentario
 from flask_cors import CORS
 from extensiones import bcrypt
-
 
 api = Blueprint('api', __name__)
 
 # Permitir solicitudes CORS a esta API
-CORS(api,supports_credentials=True)
+CORS(api, supports_credentials=True)
 
 # Ruta para restablecer la contraseña
 @api.route('restablecer-contraseña', methods=['PUT'])
@@ -44,7 +43,6 @@ def update_password():
         db.session.rollback()  # Si hay un error, deshacer los cambios
         return jsonify({"msg": "Error al actualizar la contraseña", "error": str(e)}), 500
 
-
 # Ruta existente que ya tienes
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -53,8 +51,6 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
-
-
 
 # Nuevo endpoint para el inicio de sesión
 @api.route('login', methods=['POST'])
@@ -71,9 +67,7 @@ def login():
         return jsonify({"message": "Inicio de sesión exitoso"}), 200
     else:
         return jsonify({"message": "Credenciales inválidas"}), 401
-    
-    
-    
+
 # Endpoint para registrar un usuario
 @api.route('/registro', methods=['POST'])
 def registrar_usuario():
@@ -97,3 +91,62 @@ def registrar_usuario():
     db.session.commit()
 
     return jsonify({"mensaje": "Usuario registrado exitosamente"}), 201
+
+# Nuevas rutas para gestionar comentarios
+
+# Crear un nuevo comentario
+@api.route('/comentarios', methods=['POST'])
+def crear_comentario():
+    data = request.get_json()
+    usuario_id = data.get('usuario_id')
+    cancion_id = data.get('cancion_id')
+    comentario_texto = data.get('comentario')
+
+    if not usuario_id or not cancion_id or not comentario_texto:
+        return jsonify({"msg": "Usuario, canción y comentario son requeridos"}), 400
+
+    nuevo_comentario = Comentario(usuario_id=usuario_id, cancion_id=cancion_id, comentario=comentario_texto)
+
+    db.session.add(nuevo_comentario)
+    db.session.commit()
+
+    return jsonify(nuevo_comentario.serialize()), 201
+
+# Obtener comentarios por ID de canción
+@api.route('/comentarios', methods=['GET'])
+def obtener_comentarios():
+    cancion_id = request.args.get('cancion_id')
+    
+    if not cancion_id:
+        return jsonify({"msg": "El ID de la canción es requerido"}), 400
+
+    comentarios = Comentario.query.filter_by(cancion_id=cancion_id).all()
+    
+    return jsonify([comentario.serialize() for comentario in comentarios]), 200
+
+# Actualizar un comentario
+@api.route('/comentarios/<int:id>', methods=['PUT'])
+def actualizar_comentario(id):
+    data = request.get_json()
+    comentario = Comentario.query.get(id)
+
+    if not comentario:
+        return jsonify({"msg": "Comentario no encontrado"}), 404
+
+    comentario.comentario = data.get('comentario', comentario.comentario)
+    
+    db.session.commit()
+    return jsonify(comentario.serialize()), 200
+
+# Eliminar un comentario
+@api.route('/comentarios/<int:id>', methods=['DELETE'])
+def eliminar_comentario(id):
+    comentario = Comentario.query.get(id)
+
+    if not comentario:
+        return jsonify({"msg": "Comentario no encontrado"}), 404
+
+    db.session.delete(comentario)
+    db.session.commit()
+    
+    return jsonify({"msg": "Comentario eliminado exitosamente"}), 204
