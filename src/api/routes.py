@@ -5,7 +5,7 @@ from flask import request, jsonify, Blueprint
 from api.models import db, Usuario
 from flask_cors import CORS
 from extensiones import bcrypt
-
+from flask_jwt_extended import create_access_token
 
 api = Blueprint('api', __name__)
 
@@ -55,7 +55,6 @@ def handle_hello():
     return jsonify(response_body), 200
 
 
-
 # Nuevo endpoint para el inicio de sesión
 @api.route('login', methods=['POST'])
 def login():
@@ -68,11 +67,16 @@ def login():
     user = Usuario.query.filter_by(email=email).first()
 
     if user and bcrypt.check_password_hash(user.contraseña, password):
-        return jsonify({"message": "Inicio de sesión exitoso"}), 200
+        # Crear el token de acceso usando el email del usuario
+        access_token = create_access_token(identity=user.email)
+
+        return jsonify({
+            "message": "Inicio de sesión exitoso",
+            "token": access_token
+        }), 200
     else:
         return jsonify({"message": "Credenciales inválidas"}), 401
-    
-    
+     
     
 # Endpoint para registrar un usuario
 @api.route('/registro', methods=['POST'])

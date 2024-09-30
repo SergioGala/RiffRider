@@ -1,6 +1,3 @@
-"""
-This module takes care of starting the API Server, Loading the DB and Adding the endpoints
-"""
 import os
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
@@ -11,6 +8,7 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 from extensiones import bcrypt
+from flask_jwt_extended import JWTManager  # Importar JWTManager
 
 # Configuración de entorno
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -33,6 +31,12 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
+
+# Configuración de la clave secreta para JWT
+app.config['JWT_SECRET_KEY'] = 'super-secret-key'  # Cambia esto por una clave segura
+
+# Inicializar JWTManager
+jwt = JWTManager(app)
 
 # Añadir el panel de administración
 setup_admin(app)
