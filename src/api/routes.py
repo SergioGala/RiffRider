@@ -1,10 +1,18 @@
+
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, current_app
 from api.models import db, Usuario
 from flask_cors import CORS
 from extensiones import bcrypt
+import jwt  # Para crear el token
+import datetime
+from flask import current_app  # Para obtener la configuración de la app
+from flask_mail import Message
+from extensiones import mail  
+from jwt import ExpiredSignatureError, InvalidTokenError
+
 
 
 api = Blueprint('api', __name__)
@@ -97,3 +105,73 @@ def registrar_usuario():
     db.session.commit()
 
     return jsonify({"mensaje": "Usuario registrado exitosamente"}), 201
+
+
+
+# Ruta para solicitar el restablecimiento de contraseña
+@api.route('/solicitar-restablecimiento', methods=['POST'])
+def solicitar_restablecimiento():
+    data = request.get_json()
+    email = data.get('email')
+
+    # Verificar si el usuario existe
+    user = Usuario.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"msg": "Usuario no encontrado"}), 404
+
+    # Generar un token JWT con una validez de 1 hora
+    token = jwt.encode({
+        'email': user.email,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+    }, current_app.config['SECRET_KEY'], algorithm='HS256')
+
+    # Crear el enlace de restablecimiento con el token
+    reset_link = f"http://frontend-app-url/restablecer-contraseña?token={token}"
+
+    # Crear y enviar el correo
+    msg = Message(subject="Restablecer Contraseña", recipients=[user.email])
+    msg.body = f"Haz clic en el siguiente enlace para restablecer tu contraseña: {reset_link}"
+
+    try:
+        mail.send(msg)
+        return jsonify({"msg": "Correo de restablecimiento enviado"}), 200
+    except Exception as e:
+        return jsonify({"msg": "Error al enviar el correo", "error": str(e)}), 500
+    
+
+
+    # Ruta para restablecer la contraseña usando el token
+@api.route('/restablecer-contraseña', methods=['PUT'])
+def restablecer_contraseña():
+    data = request.get_json()
+    token = data.get('token')  # El token enviado en la URL
+    new_password = data.get('new_password')  # Nueva contraseña ingresada por el usuario
+
+    # Verificar si el token y la nueva contraseña están presentes
+    if not token or not new_password:
+        return jsonify({"msg": "Token y nueva contraseña son requeridos"}), 400
+
+    try:
+        # Decodificar el token para obtener el email del usuario
+        decoded_token = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
+        email = decoded_token.get('email')
+
+        # Buscar al usuario por email
+        user = Usuario.query.filter_by(email=email).first()
+        if not user:
+            return jsonify({"msg": "Usuario no encontrado"}), 404
+
+        # Actualizar la contraseña del usuario en la base de datos
+        user.contraseña = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        db.session.commit()
+
+        return jsonify({"msg": "Contraseña actualizada exitosamente"}), 200
+
+    except ExpiredSignatureError:
+        return jsonify({"msg": "El token ha expirado"}), 400
+    except InvalidTokenError:
+        return jsonify({"msg": "Token inválido"}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"msg": "Error al restablecer la contraseña", "error": str(e)}), 500
+
