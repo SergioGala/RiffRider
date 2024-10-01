@@ -189,26 +189,82 @@ const AmbientScreen = ({ currentTheme, currentSong, onExit, isPlaying, togglePla
       finalColor += col * d;
     }
     `,
-    // Nuevo patrón 1: Ondas concéntricas
+    // Nuevo patrón 1: Nebulosa Fractal
     `
     vec3 finalColor = vec3(0.0);
-    float d = length(uv0);
-    for (float i = 0.0; i < 3.0; i++) {
-      float freq = 10.0 + i * 5.0;
-      float amp = 0.1 - i * 0.03;
-      finalColor += palette(d + u_time * 0.2) * smoothstep(amp - 0.01, amp, sin(d * freq - u_time * 2.0) * 0.5 + 0.5);
+    float zoom = 2.5 + sin(u_time * 0.1) * 0.5;
+    for (float i = 0.0; i < 5.0; i++) {
+      vec2 uv1 = uv0 * zoom * (1.0 + i * 0.05);
+      float angle = u_time * (0.1 + i * 0.05);
+      uv1 = vec2(uv1.x * cos(angle) - uv1.y * sin(angle), uv1.x * sin(angle) + uv1.y * cos(angle));
+      vec2 uv2 = uv1;
+      for (int j = 0; j < 5; j++) {
+        uv2 = abs(uv2) / dot(uv2, uv2) - 1.0;
+      }
+      float d = length(uv2);
+      vec3 col = palette(d + i * 0.4 + u_time * 0.1);
+      float f = smoothstep(0.0, 1.0, 0.1 / abs(d));
+      finalColor += col * f * (2.0 / (i + 1.0));
     }
+    finalColor /= 3.0;
     `,
-    // Nuevo patrón 2: Vórtice
+    // Nuevo patrón 2: Vórtice Hipnótico
     `
     vec3 finalColor = vec3(0.0);
-    float angle = atan(uv0.y, uv0.x);
-    float radius = length(uv0);
-    for (float i = 0.0; i < 3.0; i++) {
-      float freq = 5.0 + i * 2.0;
-      float amp = 0.2 - i * 0.05;
-      finalColor += palette(radius + u_time * 0.1) * smoothstep(amp - 0.01, amp, sin(angle * freq + radius * 10.0 - u_time * 3.0) * 0.5 + 0.5);
+    float t = u_time * 0.2;
+    vec2 uv1 = uv0 * 2.0;
+    for (float i = 0.0; i < 4.0; i++) {
+      float angle = length(uv1) * 5.0 - t * (1.0 + i * 0.3);
+      vec2 offset = vec2(cos(angle), sin(angle)) * 0.3;
+      uv1 += offset / (i + 1.0);
+      float d = length(fract(uv1) - 0.5);
+      float r = smoothstep(0.3, 0.7, sin(d * 50.0 - t * 5.0) * 0.5 + 0.5);
+      r *= smoothstep(0.5, 0.0, d);
+      vec3 col = palette(d + i * 0.25 + t * 0.1);
+      finalColor += col * r / (i + 1.0);
     }
+    finalColor *= 1.5;
+    `,
+    // Nuevo patrón 3: Caleidoscopio Cuántico
+    `
+    vec3 finalColor = vec3(0.0);
+    float sides = 8.0;
+    float zoom = 3.0 + sin(u_time * 0.2) * 1.0;
+    vec2 uv1 = uv0 * zoom;
+    float angle = atan(uv1.y, uv1.x);
+    float segmentAngle = (3.1415 * 2.0) / sides;
+    angle = mod(angle, segmentAngle) - segmentAngle * 0.5;
+    uv1 = length(uv1) * vec2(cos(angle), sin(angle));
+    
+    for (float i = 0.0; i < 5.0; i++) {
+      float t = u_time * (0.1 + i * 0.05) + i;
+      vec2 uv2 = uv1 * (1.0 + i * 0.1) + vec2(sin(t * 0.7), cos(t * 0.9)) * 0.2;
+      uv2 = fract(uv2) - 0.5;
+      float d = length(uv2);
+      float r = smoothstep(0.2, 0.1, d) * smoothstep(0.05, 0.1, d);
+      r *= sin(d * 50.0 - t * 3.0) * 0.5 + 0.5;
+      vec3 col = palette(d + i * 0.2 + u_time * 0.1);
+      finalColor += col * r * (2.0 / (i + 1.0));
+    }
+    finalColor *= 1.5;
+    `,
+    // Nuevo patrón 4: Ondas Dimensionales
+    `
+    vec3 finalColor = vec3(0.0);
+    float t = u_time * 0.3;
+    vec2 uv1 = uv0 * 2.0;
+    for (float i = 0.0; i < 4.0; i++) {
+      float z = fract(t + i * 0.25);
+      vec2 uv2 = uv1 * (z + 0.5);
+      float d = length(uv2);
+      vec2 polarCoord = vec2(atan(uv2.y, uv2.x), d);
+      float wave = sin(polarCoord.x * 8.0 + polarCoord.y * 15.0 - t * 5.0);
+      wave = abs(wave);
+      wave = pow(0.03 / wave, 1.2);
+      vec3 col = palette(d + i * 0.3 + t * 0.1);
+      finalColor += col * wave * z * (2.0 / (i + 1.0));
+    }
+    finalColor /= 2.0;
     `
   ], []);
 
