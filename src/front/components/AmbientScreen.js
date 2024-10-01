@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { X, Music } from 'lucide-react';
+import { X, Music, Palette } from 'lucide-react';
 import styled from 'styled-components';
 import AudioPlayer from './AudioPlayer.js';
 
@@ -28,6 +28,11 @@ const ControlButton = styled.button`
   color: white;
   cursor: pointer;
   font-size: 24px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const SensitivityControl = styled.div`
@@ -168,6 +173,48 @@ const AmbientScreen = ({ currentTheme, currentSong, onExit, isPlaying, togglePla
   const [audioLevels, setAudioLevels] = useState({ bass: 0, mid: 0, treble: 0 });
   const [gradientColors, setGradientColors] = useState(['#000000', '#000000', '#000000', '#000000']);
   const sliderRef = useRef(null);
+  const [currentPattern, setCurrentPattern] = useState(0);
+
+  const patterns = useMemo(() => [
+    // Patrón original
+    `
+    vec3 finalColor = vec3(0.0);
+    for (float i = 0.0; i < 4.0; i++) {
+      uv = fract(uv * 1.5) - 0.5;
+      float d = length(uv) * exp(-length(uv0));
+      vec3 col = palette(length(uv0) + i*.4 + u_time*.4);
+      d = sin(d*8. + u_time)/8.;
+      d = abs(d);
+      d = pow(0.01 / d, 1.2);
+      finalColor += col * d;
+    }
+    `,
+    // Nuevo patrón 1: Ondas concéntricas
+    `
+    vec3 finalColor = vec3(0.0);
+    float d = length(uv0);
+    for (float i = 0.0; i < 3.0; i++) {
+      float freq = 10.0 + i * 5.0;
+      float amp = 0.1 - i * 0.03;
+      finalColor += palette(d + u_time * 0.2) * smoothstep(amp - 0.01, amp, sin(d * freq - u_time * 2.0) * 0.5 + 0.5);
+    }
+    `,
+    // Nuevo patrón 2: Vórtice
+    `
+    vec3 finalColor = vec3(0.0);
+    float angle = atan(uv0.y, uv0.x);
+    float radius = length(uv0);
+    for (float i = 0.0; i < 3.0; i++) {
+      float freq = 5.0 + i * 2.0;
+      float amp = 0.2 - i * 0.05;
+      finalColor += palette(radius + u_time * 0.1) * smoothstep(amp - 0.01, amp, sin(angle * freq + radius * 10.0 - u_time * 3.0) * 0.5 + 0.5);
+    }
+    `
+  ], []);
+
+  const changePattern = () => {
+    setCurrentPattern((prevPattern) => (prevPattern + 1) % patterns.length);
+  };
 
   // Generamos colores dinámicos basados en los niveles de audio
   const dynamicColors = useMemo(() => {
@@ -255,22 +302,8 @@ const AmbientScreen = ({ currentTheme, currentSong, onExit, isPlaying, togglePla
       void main() {
         vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution) / min(u_resolution.x, u_resolution.y);
         vec2 uv0 = uv;
-        vec3 finalColor = vec3(0.0);
         
-        for (float i = 0.0; i < 4.0; i++) {
-          uv = fract(uv * 1.5) - 0.5;
-          
-          float d = length(uv) * exp(-length(uv0));
-          
-          vec3 col = palette(length(uv0) + i*.4 + u_time*.4);
-          
-          d = sin(d*8. + u_time)/8.;
-          d = abs(d);
-          
-          d = pow(0.01 / d, 1.2);
-          
-          finalColor += col * d;
-        }
+        ${patterns[currentPattern]}
         
         finalColor *= vec3(u_bass, u_mid, u_treble);
         
@@ -361,7 +394,7 @@ const AmbientScreen = ({ currentTheme, currentSong, onExit, isPlaying, togglePla
         gl.deleteBuffer(positionBuffer);
       }
     };
-  }, [audioSensitivity]);
+  }, [audioSensitivity, currentPattern, patterns]);
 
   useEffect(() => {
     if (isPlaying && !audioContextRef.current) {
@@ -426,6 +459,9 @@ const AmbientScreen = ({ currentTheme, currentSong, onExit, isPlaying, togglePla
         </ControlButton>
         <ControlButton onClick={togglePlayPause}>
           <Music />
+        </ControlButton>
+        <ControlButton onClick={changePattern}>
+          <Palette />
         </ControlButton>
       </div>
       <SensitivityControl>
