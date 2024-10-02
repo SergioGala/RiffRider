@@ -289,24 +289,24 @@ function App() {
       <main className="app-main">
       {isAmbientMode ? (
   <AmbientScreen 
-    currentTheme={currentTheme}
-    currentSong={currentSong}
-    onExit={toggleAmbientMode}
-    isPlaying={isPlaying}
-    togglePlayPause={togglePlayPause}
-    AudioPlayer={
-      <AudioPlayer 
-        audioSrc={currentSong?.preview_url}
-        songTitle={currentSong?.name}
-        artistName={currentSong?.artists}
-        albumCover={currentSong?.album_image}
-        isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
-        onClose={closeAudioPlayer}
-        primaryColor={currentTheme.primary}
-        secondaryColor={currentTheme.secondary}
-        className="animated-element"
-      />
+  currentTheme={currentTheme}
+  currentSong={currentSong}
+  onExit={toggleAmbientMode}
+  isPlaying={isPlaying}
+  togglePlayPause={togglePlayPause}
+  AudioPlayer={
+    <AudioPlayer 
+      audioSrc={currentSong?.preview_url}
+      songTitle={currentSong?.name}
+      artistName={currentSong?.artists}
+      albumCover={currentSong?.album_image}
+      isPlaying={isPlaying}
+      setIsPlaying={setIsPlaying}
+      onClose={closeAudioPlayer}
+      primaryColor={currentTheme.primary}
+      secondaryColor={currentTheme.secondary}
+      className="animated-element"
+    />
     }
   />
         ) : showAuthForms ? (
