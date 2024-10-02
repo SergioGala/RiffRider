@@ -1,4 +1,49 @@
 export const themes = {
+  electronic: {
+    light: {
+      primary: '#00FF00',
+      secondary: '#FF00FF',
+      background: '#1A1A1A',
+      text: '#FFFFFF',
+      accent: '#00FFFF',
+      hover: '#FF00FF',
+      font: "'Orbitron', sans-serif",
+      buttonGradient: ' #00FF00',
+      boxShadow: '0 0 15px #00FF00',
+      animation: {
+        name: 'neonPulse',
+        keyframes: `
+          @keyframes neonPulse {
+            0%, 100% { box-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00, 0 0 15px #00FF00, 0 0 20px #00FF00; }
+            50% { box-shadow: 0 0 10px #00FF00, 0 0 20px #00FF00, 0 0 30px #00FF00, 0 0 40px #00FF00; }
+          }
+        `
+      },
+      pattern: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300FF00' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"
+    },
+    dark: {
+      primary: '#00FF00',
+      secondary: '#FF00FF',
+      background: '#0F0F0F',
+      text: '#FFFFFF',
+      accent: '#00FFFF',
+      hover: '#FF00FF',
+      font: "'Orbitron', sans-serif",
+      buttonGradient: '#00FF00',
+      boxShadow: '0 0 15px #00FF00',
+      animation: {
+        name: 'electroBeat',
+        keyframes: `
+          @keyframes electroBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+          }
+        `
+      },
+      pattern: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300FF00' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"
+    }
+  },
+  
   pop: {
     light: {
       primary: '#FF69B4',
@@ -52,7 +97,7 @@ rock: {
     text: '#FFFFFF',
     accent: '#FFA500',
     hover: '#FF6347',
-    font: "'Montserrat', sans-serif",
+    font: "'Rock Salt', cursive",
     buttonGradient: 'linear-gradient(45deg, #FF4500, #1C1C1C)',
     boxShadow: '0 0 10px #FF4500',
     animation: {
@@ -74,7 +119,7 @@ rock: {
     text: '#FFFFFF',
     accent: '#FFA07A',
     hover: '#FF4500',
-    font: "'Montserrat', sans-serif",
+    font: "'Rock Salt', cursive",
     buttonGradient: 'linear-gradient(45deg, #FF6347, #2F4F4F)',
     boxShadow: '0 0 10px #FF6347',
     animation: {
@@ -87,50 +132,6 @@ rock: {
       `
     },
     pattern: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657 8.787 5.07 13.857 0H11.03zm32.284 0L49.8 6.485 48.384 7.9l-7.9-7.9h2.83zM16.686 0L10.2 6.485 11.616 7.9l7.9-7.9h-2.83zm20.97 0l9.315 9.314-1.414 1.414L34.828 0h2.83zM22.344 0L13.03 9.314l1.414 1.414L25.172 0h-2.83zM32 0l12.142 12.142-1.414 1.414L30 .828 17.272 13.556l-1.414-1.414L28 0h4zM.284 0l28 28-1.414 1.414L0 2.544V0h.284zM0 5.373l25.456 25.455-1.414 1.415L0 8.2V5.374zm0 5.656l22.627 22.627-1.414 1.414L0 13.86v-2.83zm0 5.656l19.8 19.8-1.415 1.413L0 19.514v-2.83zm0 5.657l16.97 16.97-1.414 1.415L0 25.172v-2.83zM0 28l14.142 14.142-1.414 1.414L0 30.828V28zm0 5.657L11.314 44.97 9.9 46.386l-9.9-9.9v-2.828zm0 5.657L8.485 47.8 7.07 49.212 0 42.143v-2.83zm0 5.657l5.657 5.657-1.414 1.415L0 47.8v-2.83zm0 5.657l2.828 2.83-1.414 1.413L0 53.456v-2.83zM54.627 60L30 35.373 5.373 60H8.2L30 38.2 51.8 60h2.827zm-5.656 0L30 41.03 11.03 60h2.828L30 43.858 46.142 60h2.83zm-5.656 0L30 46.686 16.686 60h2.83L30 49.515 40.485 60h2.83zm-5.657 0L30 52.343 22.344 60h2.83L30 55.172 34.828 60h2.83zM32 60l-2-2-2 2h4zM59.716 0l-28 28 1.414 1.414L60 2.544V0h-.284zM60 5.373L34.544 30.828l1.414 1.415L60 8.2V5.374zm0 5.656L37.373 33.656l1.414 1.414L60 13.86v-2.83zm0 5.656l-19.8 19.8 1.415 1.413L60 19.514v-2.83zm0 5.657l-16.97 16.97 1.414 1.415L60 25.172v-2.83zM60 28L45.858 42.142l1.414 1.414L60 30.828V28zm0 5.657L48.686 44.97l1.415 1.415 9.9-9.9v-2.828zm0 5.657L51.515 47.8l1.414 1.413 7.07-7.07v-2.83zm0 5.657l-5.657 5.657 1.414 1.415L60 47.8v-2.83zm0 5.657l-2.828 2.83 1.414 1.413L60 53.456v-2.83zM39.9 16.385l1.414-1.414L30 3.658 18.686 14.97l1.415 1.415 9.9-9.9 9.9 9.9zm-2.83 2.828l1.415-1.414L30 9.313 21.515 17.8l1.414 1.413 7.07-7.07 7.07 7.07zm-2.827 2.83l1.414-1.416L30 14.97l-5.657 5.657 1.414 1.415L30 17.8l4.243 4.242zm-2.83 2.827l1.415-1.414L30 20.626l-2.828 2.83 1.414 1.414L30 23.456l1.414 1.414zM56.87 59.414L58.284 58 30 29.716 1.716 58l1.414 1.414L30 32.544l26.87 26.87z' fill='%23FF6347' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E\")"
-  }
-},
-electronic: {
-  light: {
-    primary: '#00FF00',
-    secondary: '#FF00FF',
-    background: '#1A1A1A',
-    text: '#FFFFFF',
-    accent: '#00FFFF',
-    hover: '#FF00FF',
-    font: "'Orbitron', sans-serif",
-    buttonGradient: ' #00FF00',
-    boxShadow: '0 0 15px #00FF00',
-    animation: {
-      name: 'neonPulse',
-      keyframes: `
-        @keyframes neonPulse {
-          0%, 100% { box-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00, 0 0 15px #00FF00, 0 0 20px #00FF00; }
-          50% { box-shadow: 0 0 10px #00FF00, 0 0 20px #00FF00, 0 0 30px #00FF00, 0 0 40px #00FF00; }
-        }
-      `
-    },
-    pattern: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300FF00' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"
-  },
-  dark: {
-    primary: '#00FF00',
-    secondary: '#FF00FF',
-    background: '#0F0F0F',
-    text: '#FFFFFF',
-    accent: '#00FFFF',
-    hover: '#FF00FF',
-    font: "'Orbitron', sans-serif",
-    buttonGradient: '#00FF00',
-    boxShadow: '0 0 15px #00FF00',
-    animation: {
-      name: 'electroBeat',
-      keyframes: `
-        @keyframes electroBeat {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-        }
-      `
-    },
-    pattern: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300FF00' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"
   }
 },
 hiphop: {
@@ -231,7 +232,7 @@ classical: {
     text: '#000000',
     accent: '#8B0000',
     hover: '#DAA520',
-    font: "'Cormorant Garamond', serif",
+    font: "'Orbitron', sans-serif",
     buttonGradient: 'linear-gradient(45deg, #B8860B, #4169E1)',
     boxShadow: '0 0 10px rgba(184, 134, 11, 0.5)',
     animation: {
@@ -253,7 +254,7 @@ classical: {
     text: '#F5F5DC',
     accent: '#8B0000',
     hover: '#B8860B',
-    font: "'Cormorant Garamond', serif",
+    font: "'Orbitron', sans-serif",
     buttonGradient: 'linear-gradient(45deg, #DAA520, #4169E1)',
     boxShadow: '0 0 15px rgba(218, 165, 32, 0.5)',
     animation: {
@@ -276,7 +277,7 @@ reggae: {
     text: '#000000',
     accent: '#EE2737',
     hover: '#00C957',
-    font: "'Kalam', cursive",
+    font:  "Rastafari",
     buttonGradient: 'linear-gradient(45deg, #009E49, #FED100)',
     boxShadow: '0 0 10px rgba(0, 158, 73, 0.5)',
     animation: {
@@ -297,7 +298,7 @@ reggae: {
     text: '#FFFFFF',
     accent: '#FF4500',
     hover: '#32CD32',
-    font: "'Kalam', cursive",
+    font: "Rastafari",
     buttonGradient: 'linear-gradient(45deg, #00C957, #FFD700)',
     boxShadow: '0 0 15px rgba(0, 201, 87, 0.5)',
     animation: {
@@ -321,7 +322,7 @@ metal: {
     text: '#000000',
     accent: '#FF4500',
     hover: '#B8860B',
-    font: "'Megrim', cursive",
+    font: "Metal Mania",
     buttonGradient: 'linear-gradient(45deg, #C0C0C0, #8B0000)',
     boxShadow: '0 0 10px rgba(192, 192, 192, 0.7)',
     animation: {
@@ -343,7 +344,7 @@ metal: {
     text: '#FFFFFF',
     accent: '#FF4500',
     hover: '#C0C0C0',
-    font: "'Megrim', cursive",
+    font: "Metal Mania",
     buttonGradient: 'linear-gradient(45deg, #1C1C1C, #8B0000)',
     boxShadow: '0 0 15px rgba(139, 0, 0, 0.7)',
     animation: {
@@ -366,7 +367,7 @@ punk: {
     text: '#000000',
     accent: '#00FF00',
     hover: '#FF4500',
-    font: "'Anarchy', sans-serif",
+    font: "VT323",
     buttonGradient: 'linear-gradient(45deg, #FF1493, #000000)',
     boxShadow: '0 0 10px rgba(255, 20, 147, 0.7)',
     animation: {
@@ -388,7 +389,7 @@ punk: {
     text: '#FFFFFF',
     accent: '#00FF00',
     hover: '#FF4500',
-    font: "'Anarchy', sans-serif",
+    font: "VT323",
     buttonGradient: 'linear-gradient(45deg, #FF1493, #FFFFFF)',
     boxShadow: '0 0 15px rgba(255, 20, 147, 0.7)',
     animation: {
@@ -411,7 +412,7 @@ folk: {
     text: '#000000',
     accent: '#D2691E',
     hover: '#556B2F',
-    font: "'Amatic SC', cursive",
+    font:  "Dancing Script",
     buttonGradient: 'linear-gradient(45deg, #8B4513, #6B8E23)',
     boxShadow: '0 0 10px rgba(139, 69, 19, 0.5)',
     animation: {
@@ -433,7 +434,7 @@ folk: {
     text: '#F5DEB3',
     accent: '#8B4513',
     hover: '#6B8E23',
-    font: "'Amatic SC', cursive",
+    font:  "Dancing Script",
     buttonGradient: 'linear-gradient(45deg, #D2691E, #556B2F)',
     boxShadow: '0 0 15px rgba(210, 105, 30, 0.5)',
     animation: {
@@ -456,7 +457,7 @@ rnb: {
     text: '#000000',
     accent: '#4B0082',
     hover: '#DDA0DD',
-    font: "'Poiret One', cursive",
+    font: "Roboto Condensed",
     buttonGradient: 'linear-gradient(45deg, #9932CC, #FF8C00)',
     boxShadow: '0 0 10px rgba(153, 50, 204, 0.5)',
     animation: {
@@ -477,7 +478,7 @@ rnb: {
     text: '#FFFFFF',
     accent: '#FF69B4',
     hover: '#9370DB',
-    font: "'Poiret One', cursive",
+    font: "Roboto Condensed",
     buttonGradient: 'linear-gradient(45deg, #8A2BE2, #FFA500)',
     boxShadow: '0 0 15px rgba(138, 43, 226, 0.5)',
     animation: {
@@ -500,7 +501,7 @@ disco: {
     text: '#000000',
     accent: '#00CED1',
     hover: '#FF1493',
-    font: "'Monoton', cursive",
+    font: "Monoton",
     buttonGradient: 'linear-gradient(45deg, #FF69B4, #FFD700)',
     boxShadow: '0 0 10px rgba(255, 105, 180, 0.7)',
     animation: {
@@ -522,7 +523,7 @@ disco: {
     text: '#FFFFFF',
     accent: '#00FFFF',
     hover: '#FF69B4',
-    font: "'Monoton', cursive",
+    font: "Monoton",
     buttonGradient: 'linear-gradient(45deg, #FF1493, #FFD700)',
     boxShadow: '0 0 15px rgba(255, 20, 147, 0.7)',
     animation: {
@@ -610,7 +611,7 @@ indie: {
     text: '#FFFFFF',
     accent: '#FFA07A',
     hover: '#20B2AA',
-    font: "'Courier Prime', monospace",
+    font: "Pacifico",
     buttonGradient: 'linear-gradient(45deg, #FF6347, #48D1CC)',
     boxShadow: '0 0 15px rgba(255, 99, 71, 0.5)',
     animation: {
@@ -633,7 +634,7 @@ grunge: {
     text: '#000000',
     accent: '#CD5C5C',
     hover: '#556B2F',
-    font: "'Grunge', sans-serif",
+    font: "Pacifico",
     buttonGradient: 'linear-gradient(45deg, #8B0000, #2F4F4F)',
     boxShadow: '0 0 10px rgba(139, 0, 0, 0.5)',
     animation: {
@@ -678,7 +679,7 @@ synthwave: {
     text: '#FFFFFF',
     accent: '#FFA500',
     hover: '#FF00FF',
-    font: "'Outrun future', sans-serif",
+    font: "Audiowide",
     buttonGradient: 'linear-gradient(45deg, #FF1493, #00FFFF)',
     boxShadow: '0 0 10px rgba(255, 20, 147, 0.7)',
     animation: {
@@ -699,7 +700,7 @@ synthwave: {
     text: '#FFFFFF',
     accent: '#FFA500',
     hover: '#FF00FF',
-    font: "'Outrun future', sans-serif",
+    font: "Audiowide",
     buttonGradient: 'linear-gradient(45deg, #FF1493, #00FFFF)',
     boxShadow: '0 0 15px rgba(255, 20, 147, 0.7)',
     animation: {
@@ -722,7 +723,7 @@ lofi: {
     text: '#4A4A4A',
     accent: '#DDA0DD',
     hover: '#5F9EA0',
-    font: "'IBM Plex Mono', monospace",
+    font: "Gloria Hallelujah",
     buttonGradient: 'linear-gradient(45deg, #20B2AA, #FFA07A)',
     boxShadow: '0 0 10px rgba(32, 178, 170, 0.3)',
     animation: {
@@ -743,7 +744,7 @@ lofi: {
     text: '#E0E0E0',
     accent: '#DDA0DD',
     hover: '#5F9EA0',
-    font: "'IBM Plex Mono', monospace",
+    font: "Gloria Hallelujah",
     buttonGradient: 'linear-gradient(45deg, #20B2AA, #FFA07A)',
     boxShadow: '0 0 15px rgba(32, 178, 170, 0.3)',
     animation: {
