@@ -52,7 +52,7 @@ rock: {
     text: '#FFFFFF',
     accent: '#FFA500',
     hover: '#FF6347',
-    font: "'Montserrat', sans-serif",
+    font: "'Rock Salt', cursive",
     buttonGradient: 'linear-gradient(45deg, #FF4500, #1C1C1C)',
     boxShadow: '0 0 10px #FF4500',
     animation: {
@@ -74,7 +74,7 @@ rock: {
     text: '#FFFFFF',
     accent: '#FFA07A',
     hover: '#FF4500',
-    font: "'Montserrat', sans-serif",
+    font: "'Rock Salt', cursive",
     buttonGradient: 'linear-gradient(45deg, #FF6347, #2F4F4F)',
     boxShadow: '0 0 10px #FF6347',
     animation: {
@@ -231,7 +231,7 @@ classical: {
     text: '#000000',
     accent: '#8B0000',
     hover: '#DAA520',
-    font: "'Cormorant Garamond', serif",
+    font: "'Orbitron', sans-serif",
     buttonGradient: 'linear-gradient(45deg, #B8860B, #4169E1)',
     boxShadow: '0 0 10px rgba(184, 134, 11, 0.5)',
     animation: {
@@ -253,7 +253,7 @@ classical: {
     text: '#F5F5DC',
     accent: '#8B0000',
     hover: '#B8860B',
-    font: "'Cormorant Garamond', serif",
+    font: "'Orbitron', sans-serif",
     buttonGradient: 'linear-gradient(45deg, #DAA520, #4169E1)',
     boxShadow: '0 0 15px rgba(218, 165, 32, 0.5)',
     animation: {
@@ -276,7 +276,7 @@ reggae: {
     text: '#000000',
     accent: '#EE2737',
     hover: '#00C957',
-    font: "'Kalam', cursive",
+    font:  "Rastafari",
     buttonGradient: 'linear-gradient(45deg, #009E49, #FED100)',
     boxShadow: '0 0 10px rgba(0, 158, 73, 0.5)',
     animation: {
@@ -297,7 +297,7 @@ reggae: {
     text: '#FFFFFF',
     accent: '#FF4500',
     hover: '#32CD32',
-    font: "'Kalam', cursive",
+    font: "Rastafari",
     buttonGradient: 'linear-gradient(45deg, #00C957, #FFD700)',
     boxShadow: '0 0 15px rgba(0, 201, 87, 0.5)',
     animation: {
@@ -321,7 +321,7 @@ metal: {
     text: '#000000',
     accent: '#FF4500',
     hover: '#B8860B',
-    font: "'Megrim', cursive",
+    font: "Metal Mania",
     buttonGradient: 'linear-gradient(45deg, #C0C0C0, #8B0000)',
     boxShadow: '0 0 10px rgba(192, 192, 192, 0.7)',
     animation: {
@@ -343,7 +343,7 @@ metal: {
     text: '#FFFFFF',
     accent: '#FF4500',
     hover: '#C0C0C0',
-    font: "'Megrim', cursive",
+    font: "Metal Mania",
     buttonGradient: 'linear-gradient(45deg, #1C1C1C, #8B0000)',
     boxShadow: '0 0 15px rgba(139, 0, 0, 0.7)',
     animation: {
@@ -366,7 +366,7 @@ punk: {
     text: '#000000',
     accent: '#00FF00',
     hover: '#FF4500',
-    font: "'Anarchy', sans-serif",
+    font: "VT323",
     buttonGradient: 'linear-gradient(45deg, #FF1493, #000000)',
     boxShadow: '0 0 10px rgba(255, 20, 147, 0.7)',
     animation: {
@@ -388,7 +388,7 @@ punk: {
     text: '#FFFFFF',
     accent: '#00FF00',
     hover: '#FF4500',
-    font: "'Anarchy', sans-serif",
+    font: "VT323",
     buttonGradient: 'linear-gradient(45deg, #FF1493, #FFFFFF)',
     boxShadow: '0 0 15px rgba(255, 20, 147, 0.7)',
     animation: {
@@ -411,7 +411,7 @@ folk: {
     text: '#000000',
     accent: '#D2691E',
     hover: '#556B2F',
-    font: "'Amatic SC', cursive",
+    font:  "Dancing Script",
     buttonGradient: 'linear-gradient(45deg, #8B4513, #6B8E23)',
     boxShadow: '0 0 10px rgba(139, 69, 19, 0.5)',
     animation: {
@@ -433,7 +433,7 @@ folk: {
     text: '#F5DEB3',
     accent: '#8B4513',
     hover: '#6B8E23',
-    font: "'Amatic SC', cursive",
+    font:  "Dancing Script",
     buttonGradient: 'linear-gradient(45deg, #D2691E, #556B2F)',
     boxShadow: '0 0 15px rgba(210, 105, 30, 0.5)',
     animation: {
@@ -456,7 +456,7 @@ rnb: {
     text: '#000000',
     accent: '#4B0082',
     hover: '#DDA0DD',
-    font: "'Poiret One', cursive",
+    font: "Roboto Condensed",
     buttonGradient: 'linear-gradient(45deg, #9932CC, #FF8C00)',
     boxShadow: '0 0 10px rgba(153, 50, 204, 0.5)',
     animation: {
@@ -477,7 +477,7 @@ rnb: {
     text: '#FFFFFF',
     accent: '#FF69B4',
     hover: '#9370DB',
-    font: "'Poiret One', cursive",
+    font: "Roboto Condensed",
     buttonGradient: 'linear-gradient(45deg, #8A2BE2, #FFA500)',
     boxShadow: '0 0 15px rgba(138, 43, 226, 0.5)',
     animation: {
@@ -500,7 +500,7 @@ disco: {
     text: '#000000',
     accent: '#00CED1',
     hover: '#FF1493',
-    font: "'Monoton', cursive",
+    font: "Monoton",
     buttonGradient: 'linear-gradient(45deg, #FF69B4, #FFD700)',
     boxShadow: '0 0 10px rgba(255, 105, 180, 0.7)',
     animation: {
@@ -522,7 +522,7 @@ disco: {
     text: '#FFFFFF',
     accent: '#00FFFF',
     hover: '#FF69B4',
-    font: "'Monoton', cursive",
+    font: "Monoton",
     buttonGradient: 'linear-gradient(45deg, #FF1493, #FFD700)',
     boxShadow: '0 0 15px rgba(255, 20, 147, 0.7)',
     animation: {
@@ -610,7 +610,7 @@ indie: {
     text: '#FFFFFF',
     accent: '#FFA07A',
     hover: '#20B2AA',
-    font: "'Courier Prime', monospace",
+    font: "Pacifico",
     buttonGradient: 'linear-gradient(45deg, #FF6347, #48D1CC)',
     boxShadow: '0 0 15px rgba(255, 99, 71, 0.5)',
     animation: {
@@ -633,7 +633,7 @@ grunge: {
     text: '#000000',
     accent: '#CD5C5C',
     hover: '#556B2F',
-    font: "'Grunge', sans-serif",
+    font: "Pacifico",
     buttonGradient: 'linear-gradient(45deg, #8B0000, #2F4F4F)',
     boxShadow: '0 0 10px rgba(139, 0, 0, 0.5)',
     animation: {
@@ -678,7 +678,7 @@ synthwave: {
     text: '#FFFFFF',
     accent: '#FFA500',
     hover: '#FF00FF',
-    font: "'Outrun future', sans-serif",
+    font: "Audiowide",
     buttonGradient: 'linear-gradient(45deg, #FF1493, #00FFFF)',
     boxShadow: '0 0 10px rgba(255, 20, 147, 0.7)',
     animation: {
@@ -699,7 +699,7 @@ synthwave: {
     text: '#FFFFFF',
     accent: '#FFA500',
     hover: '#FF00FF',
-    font: "'Outrun future', sans-serif",
+    font: "Audiowide",
     buttonGradient: 'linear-gradient(45deg, #FF1493, #00FFFF)',
     boxShadow: '0 0 15px rgba(255, 20, 147, 0.7)',
     animation: {
@@ -722,7 +722,7 @@ lofi: {
     text: '#4A4A4A',
     accent: '#DDA0DD',
     hover: '#5F9EA0',
-    font: "'IBM Plex Mono', monospace",
+    font: "Gloria Hallelujah",
     buttonGradient: 'linear-gradient(45deg, #20B2AA, #FFA07A)',
     boxShadow: '0 0 10px rgba(32, 178, 170, 0.3)',
     animation: {
@@ -743,7 +743,7 @@ lofi: {
     text: '#E0E0E0',
     accent: '#DDA0DD',
     hover: '#5F9EA0',
-    font: "'IBM Plex Mono', monospace",
+    font: "Gloria Hallelujah",
     buttonGradient: 'linear-gradient(45deg, #20B2AA, #FFA07A)',
     boxShadow: '0 0 15px rgba(32, 178, 170, 0.3)',
     animation: {
