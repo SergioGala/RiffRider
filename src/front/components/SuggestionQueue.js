@@ -1,6 +1,97 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import styled from 'styled-components';
 import { getVotingQueue, submitVote } from '../services/VotingService';
-import './SuggestionQueue.css';
+import { ThumbsUp, ThumbsDown, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+
+const QueueContainer = styled.div`
+  background-color: var(--background);
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+`;
+
+const Title = styled.h2`
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 20px;
+`;
+
+const SuggestionList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
+
+const SuggestionItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(var(--primary-rgb), 0.1);
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: rgba(var(--primary-rgb), 0.2);
+  }
+`;
+
+const QueuePosition = styled.span`
+  color: var(--secondary);
+  font-weight: bold;
+  margin-right: 10px;
+`;
+
+const SongInfo = styled.div`
+  flex-grow: 1;
+`;
+
+const SongTitle = styled.span`
+  color: var(--primary);
+  font-weight: bold;
+  margin-right: 10px;
+`;
+
+const SongArtist = styled.span`
+  color: var(--secondary);
+`;
+
+const VoteCount = styled.div`
+  color: var(--accent);
+  font-weight: bold;
+  margin: 0 20px;
+  display: flex;
+  align-items: center;
+`;
+
+const VoteButtons = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const VoteButton = styled.button`
+  background-color: transparent;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  padding: 5px;
+  transition: all 0.3s ease;
+  color: var(--text);
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.voted {
+    color: var(--primary);
+  }
+`;
 
 const SuggestionQueue = ({ userId }) => {
   const [suggestions, setSuggestions] = useState([]);
@@ -32,52 +123,52 @@ const SuggestionQueue = ({ userId }) => {
   }, [userId]);
 
   const renderTrendIndicator = useCallback((trend) => {
-    if (trend > 0) return <span className="trend-up">↑</span>;
-    if (trend < 0) return <span className="trend-down">↓</span>;
-    return <span className="trend-neutral">−</span>;
+    if (trend > 0) return <TrendingUp color="var(--primary)" />;
+    if (trend < 0) return <TrendingDown color="var(--error)" />;
+    return <Minus color="var(--accent)" />;
   }, []);
 
   return (
-    <div className="suggestion-queue">
-      <h2>Cola de Sugerencias</h2>
+    <QueueContainer>
+      <Title>Cola de Sugerencias</Title>
       {suggestions.length === 0 ? (
         <p>No hay sugerencias en la cola</p>
       ) : (
-        <ul>
+        <SuggestionList>
           {suggestions.map((song, index) => (
-            <li key={song.id} className="suggestion-item">
-              <span className="queue-position">{index + 1}</span>
-              <div className="song-info">
-                <span className="song-title">{song.songTitle}</span>
-                <span className="song-artist">{song.artistName}</span>
-              </div>
-              <div className="vote-count">
+            <SuggestionItem key={song.id}>
+              <QueuePosition>{index + 1}</QueuePosition>
+              <SongInfo>
+                <SongTitle>{song.songTitle}</SongTitle>
+                <SongArtist>{song.artistName}</SongArtist>
+              </SongInfo>
+              <VoteCount>
                 {renderTrendIndicator(song.trend)}
                 {song.votes}
-              </div>
-              <div className="vote-buttons">
-                <button 
+              </VoteCount>
+              <VoteButtons>
+                <VoteButton 
                   onClick={() => handleVote(song.id, 'upvote')}
                   disabled={song.userVoted && song.userVoted[userId]}
                   className={song.userVoted && song.userVoted[userId] ? 'voted' : ''}
                   aria-label="Votar positivamente"
                 >
-                  👍
-                </button>
-                <button 
+                  <ThumbsUp />
+                </VoteButton>
+                <VoteButton 
                   onClick={() => handleVote(song.id, 'downvote')}
                   disabled={song.userVoted && song.userVoted[userId]}
                   className={song.userVoted && song.userVoted[userId] ? 'voted' : ''}
                   aria-label="Votar negativamente"
                 >
-                  👎
-                </button>
-              </div>
-            </li>
+                  <ThumbsDown />
+                </VoteButton>
+              </VoteButtons>
+            </SuggestionItem>
           ))}
-        </ul>
+        </SuggestionList>
       )}
-    </div>
+    </QueueContainer>
   );
 };
 

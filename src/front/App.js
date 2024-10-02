@@ -21,7 +21,7 @@ import Login from './components/Login';
 import { submitSongRequest, getRequestQueue } from './services/SongRequestService';
 import { authorizeSpotify, setAccessToken, searchTracks } from './services/SpotifyService';
 import { themes } from './components/themes';
-import { LogIn, UserPlus,  Headphones, Music, Disc, LogOut, Sun, Moon } from 'lucide-react';
+import { LogIn, UserPlus, Headphones, Music, Disc, LogOut, Sun, Moon } from 'lucide-react';
 import './App.css';
 import './animations.css'
 
@@ -92,20 +92,20 @@ function App() {
         Object.keys(themeData).forEach(key => {
           document.documentElement.style.setProperty(`--${key}`, themeData[key]);
         });
-  
+
         document.body.style.backgroundColor = themeData.background || '';
         document.body.style.backgroundImage = themeData.pattern || 'none';
-        
+
         document.body.classList.add('theme-transition');
         setTimeout(() => {
           document.body.classList.remove('theme-transition');
         }, 300);
-  
+
         const oldStyle = document.getElementById('theme-animations');
         if (oldStyle) {
           oldStyle.remove();
         }
-  
+
         if (themeData.animation && themeData.animation.name) {
           const style = document.createElement('style');
           style.id = 'theme-animations';
@@ -117,11 +117,11 @@ function App() {
           `;
           document.head.appendChild(style);
         }
-  
+
         window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: currentTheme.name } }));
       }
     }
-  
+
     return () => {
       const styleToRemove = document.getElementById('theme-animations');
       if (styleToRemove) {
@@ -162,7 +162,7 @@ function App() {
     return [...songsToSort].sort((a, b) => {
       let valueA = a[criteria]?.toLowerCase();
       let valueB = b[criteria]?.toLowerCase();
-      return order === 'asc' 
+      return order === 'asc'
         ? valueA.localeCompare(valueB)
         : valueB.localeCompare(valueA);
     });
@@ -236,16 +236,16 @@ function App() {
         setIsMenuOpen(false);
       }
     };
-  
+
     document.addEventListener('click', closeMenu);
-  
+
     return () => {
       document.removeEventListener('click', closeMenu);
     };
   }, [isMenuOpen]);
 
- return (
-    <motion.div 
+  return (
+    <motion.div
       className="App fade-in"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -258,7 +258,7 @@ function App() {
       <InternetConnectionCheck />
       <TechnoLines />
       <PartyMode isActive={isPartyMode} />
-      
+
       <header className="app-header animated-element">
         <GlitchText text="🎧 YouDJ" />
         <nav className="app-nav">
@@ -287,28 +287,28 @@ function App() {
       </header>
 
       <main className="app-main">
-      {isAmbientMode ? (
-  <AmbientScreen 
-  currentTheme={currentTheme}
-  currentSong={currentSong}
-  onExit={toggleAmbientMode}
-  isPlaying={isPlaying}
-  togglePlayPause={togglePlayPause}
-  AudioPlayer={
-    <AudioPlayer 
-      audioSrc={currentSong?.preview_url}
-      songTitle={currentSong?.name}
-      artistName={currentSong?.artists}
-      albumCover={currentSong?.album_image}
-      isPlaying={isPlaying}
-      setIsPlaying={setIsPlaying}
-      onClose={closeAudioPlayer}
-      primaryColor={currentTheme.primary}
-      secondaryColor={currentTheme.secondary}
-      className="animated-element"
-    />
-    }
-  />
+        {isAmbientMode ? (
+          <AmbientScreen
+            currentTheme={currentTheme}
+            currentSong={currentSong}
+            onExit={toggleAmbientMode}
+            isPlaying={isPlaying}
+            togglePlayPause={togglePlayPause}
+            AudioPlayer={
+              <AudioPlayer
+                audioSrc={currentSong?.preview_url}
+                songTitle={currentSong?.name}
+                artistName={currentSong?.artists}
+                albumCover={currentSong?.album_image}
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
+                onClose={closeAudioPlayer}
+                primaryColor={currentTheme.primary}
+                secondaryColor={currentTheme.secondary}
+                className="animated-element"
+              />
+            }
+          />
         ) : showAuthForms ? (
           showRegister ? (
             <Register onRegisterSuccess={handleLogin} onBackToApp={handleBackToApp} />
@@ -322,16 +322,16 @@ function App() {
             )}
 
             {isDjMode ? (
-              <DjInterface 
-                currentSong={currentSong} 
+              <DjInterface
+                currentSong={currentSong}
                 onPlaySong={playSong}
                 requestQueue={requestQueue}
                 setRequestQueue={setRequestQueue}
               />
             ) : (
               <>
-                <Sorting 
-                  sortCriteria={sortCriteria} 
+                <Sorting
+                  sortCriteria={sortCriteria}
                   setSortCriteria={setSortCriteria}
                   sortOrder={sortOrder}
                   setSortOrder={setSortOrder}
@@ -341,12 +341,12 @@ function App() {
                 ) : (
                   sortedSongs().length > 0 && (
                     <>
-                      <SongList 
-                        songs={getCurrentSongs()} 
-                        onPlaySong={playSong} 
+                      <SongList
+                        songs={getCurrentSongs()}
+                        onPlaySong={playSong}
                         onSuggestSong={handleSuggestSong}
                       />
-                      <Pagination 
+                      <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}
                         onPageChange={handlePageChange}
@@ -360,10 +360,10 @@ function App() {
           </>
         )}
       </main>
-      
+
       {!isAmbientMode && (
         <>
-          <DynamicTheme 
+          <DynamicTheme
             albumCover={currentAlbumCover}
             isEnabled={isDynamicThemeEnabled}
           />
@@ -377,7 +377,7 @@ function App() {
           <AudioVisualizer className="animated-element" />
 
           {currentSong && (
-            <AudioPlayer 
+            <AudioPlayer
               audioSrc={currentSong.preview_url}
               songTitle={currentSong.name}
               artistName={currentSong.artists}
