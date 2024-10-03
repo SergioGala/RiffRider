@@ -11,6 +11,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@react-three/drei": "^9.114.0",
+    "@react-three/fiber": "^8.17.9",
     "color-thief-react": "^2.1.0",
     "framer-motion": "^11.5.5",
     "lodash": "^4.17.21",
@@ -21,6 +23,7 @@
     "react-polyfills": "0.0.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-spring": "^9.7.4",
     "server": "^1.0.39",
     "spotify-web-api-js": "^1.5.2",
     "styled-components": "^6.1.13",

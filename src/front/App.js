@@ -257,10 +257,10 @@ function App() {
     >
       <InternetConnectionCheck />
       <TechnoLines />
-      <PartyMode isActive={isPartyMode} />
+      <PartyMode isActive={isPartyMode} onToggle={() => setIsPartyMode(!isPartyMode)} />
 
       <header className="app-header animated-element">
-        <GlitchText text="🎧 YouDJ" />
+        <GlitchText text="🎧 YouDj" />
         <nav className="app-nav">
           <button onClick={() => { setShowRegister(false); setShowAuthForms(true); }} title="Iniciar Sesión">
             <LogIn />
