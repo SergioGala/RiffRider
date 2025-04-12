@@ -260,7 +260,7 @@ function App() {
       <PartyMode isActive={isPartyMode} onToggle={() => setIsPartyMode(!isPartyMode)} />
 
       <header className="app-header animated-element">
-        <GlitchText text="🎧 YouDj" />
+        <GlitchText text="🎧 RiffRider" />
         <nav className="app-nav">
           <button onClick={() => { setShowRegister(false); setShowAuthForms(true); }} title="Iniciar Sesión">
             <LogIn />
